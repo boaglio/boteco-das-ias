@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: boteco-das-ias
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          temperature: 0.7
+
+boteco:
+  # Magazine title template; {date} is replaced at render time.
+  title: "Boteco das IAs — {date}"
+
+  # Only consider articles published within this many days.
+  news-window-days: 7
+
+  # Official news feeds per category. The "best of each" is selected for the edition.
+  feeds:
+    java:
+      - https://inside.java/feed.xml
+    spring-boot:
+      - https://spring.io/blog.atom
+    spring-ai:
+      - https://spring.io/blog.atom
+    technology:
+      - https://feed.infoq.com/
+      - https://github.blog/feed/
+      - https://hnrss.org/frontpage
+      - https://techcrunch.com/feed/
+      - https://cacm.acm.org/feed/
+
+  # Opinion engines.
+  reviewers:
+    claude-cli:
+      command: claude
+      prompt-flag: "-p"
+    ollama:
+      gpt-oss-model: gpt-oss
+      llama3-model: llama3
+
+  # Local ComfyUI for anime-style image generation.
+  comfyui:
+    base-url: http://localhost:8188
+    style-prompt: "anime illustration, vibrant colors, clean lines"
+
+  # Output location for finished releases.
+  releases-dir: releases
+
+logging:
+  level:
+    com.boaglio.boteco.das.ias: INFO
