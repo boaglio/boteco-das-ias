@@ -280,32 +280,32 @@ public class MagazineRenderer {
 
     private static String css() {
         return """
-                :root{--bg:#faf7f2;--ink:#2b2b2b;--accent:#c0392b}
+                :root{--bg:#16151b;--card:#23222b;--card-right:#1f2a39;--ink:#ece7df;--muted:#9a948a;--accent:#e07a5f;--line:#332f3a}
                 body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;line-height:1.5}
                 .magazine-title{text-align:center;padding:2rem 1rem;border-bottom:3px solid var(--accent)}
                 .magazine-title h1{margin:0;font-size:2rem}
                 .logo-banner{width:60%;max-width:320px;height:auto;display:block;margin:0 auto 1rem;border-radius:14px}
                 main{max-width:880px;margin:0 auto;padding:1rem}
-                .news{padding:1.5rem 0;border-bottom:1px solid #e2dccf}
+                .news{padding:1.5rem 0;border-bottom:1px solid var(--line)}
                 .news-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
                 .news-cell{flex:1 1 280px}
                 .image{width:100%;border-radius:10px;display:block}
-                .image.placeholder{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#ece5d8;color:#999}
+                .image.placeholder{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#2a2833;color:var(--muted)}
                 .subject{font-size:.75rem;letter-spacing:.1em;color:var(--accent);font-weight:700}
                 .news-text h2{margin:.3rem 0}
                 .news-text a{color:inherit;text-decoration:none}
-                .original-title{margin:.1rem 0 .4rem;font-size:.85rem;font-style:italic;color:#999}
-                .source{font-size:.8rem;color:#777}
+                .original-title{margin:.1rem 0 .4rem;font-size:.85rem;font-style:italic;color:var(--muted)}
+                .source{font-size:.8rem;color:var(--muted)}
                 .opinions{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem}
-                .opinion{max-width:75%;padding:.6rem .9rem;border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+                .opinion{max-width:75%;padding:.6rem .9rem;border-radius:14px;background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.4)}
                 .opinion.left{align-self:flex-start;border-top-left-radius:2px}
-                .opinion.right{align-self:flex-end;border-top-right-radius:2px;background:#eef4ff}
-                .opinion .speaker{display:flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;color:#666;margin-bottom:.2rem}
+                .opinion.right{align-self:flex-end;border-top-right-radius:2px;background:var(--card-right)}
+                .opinion .speaker{display:flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;color:var(--muted);margin-bottom:.2rem}
                 .opinion .logo{flex:none}
                 .opinion .avatar{width:16px;height:16px;border-radius:50%;object-fit:cover}
-                .opinion .maker{font-weight:400;color:#aaa;font-size:.65rem}
+                .opinion .maker{font-weight:400;color:#7d776e;font-size:.65rem}
                 .opinion p{margin:0}
-                .magazine-footer{text-align:center;padding:2rem 1rem;color:#777;font-size:.85rem}
+                .magazine-footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
                 .footer-list{list-style:none;margin:1rem auto 0;padding:0;max-width:300px;display:inline-block;text-align:left}
                 .footer-list li{margin:.4rem 0}
                 .footer-list a{display:flex;align-items:center;gap:.55rem;color:var(--ink);text-decoration:none}
@@ -325,7 +325,7 @@ public class MagazineRenderer {
                 .card .summary{font-size:1.1rem}
                 .card .opinions{margin-top:1.4rem;gap:.7rem}
                 .card .opinion{max-width:88%;font-size:1.02rem}
-                .card-brand{display:flex;align-items:center;gap:.6rem;margin-top:1.6rem;padding-top:1rem;border-top:1px solid #e2dccf;color:#777;font-weight:700}
+                .card-brand{display:flex;align-items:center;gap:.6rem;margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-weight:700}
                 .card-brand img{width:36px;height:36px;border-radius:9px}
                 """;
     }
