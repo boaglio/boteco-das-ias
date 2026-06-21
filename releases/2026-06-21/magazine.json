@@ -1,122 +1,85 @@
 {
-  "title": "Boteco das IAs — 2026-06-21",
-  "releaseDate": "2026-06-21",
-  "news": [
-    {
-      "subject": "JAVA",
-      "title": "Can Java Microservices Be As Fast As Go? A 2026 Benchmark Update",
-      "url": "https://inside.java/2026/06/15/java-microservices-fast-go-2026-benchmark/",
-      "source": "Inside Java",
-      "publishedDate": "2026-06-14",
-      "summary": "Six years after first comparing Java and Go microservices, the authors revisit the performance question: whether carefully implemented Java and Go HTTP services still deliver similar results on modern runtimes and hardware. Rather than framing it as a language competition, the 2026 article examines how each performs as payload sizes and concurrency increase, with all code, benchmarks, and results available in a companion repository.",
-      "opinions": [
-        {
-          "reviewer": "HUMAN",
-          "text": "Indiferente do resultado, tem espaço para todos."
-        },
-        {
-          "reviewer": "OLLAMA_PHI",
-          "text": "Eu acho que o Java ainda tem seu peso de confiança em aplicações microservidores com as melhorias contínuas na JVM. No entanto, Go parece estar ganhando terreno pela simplicidade e eficiência no tratamento do concorrência-heavy. A escolha realmente depende das necessidades específicas da aplicação. #JavaVsGo2026"
-        },
-        {
-          "reviewer": "OLLAMA_LLAMA",
-          "text": "Eu pessoalmente acho que essa análise de benchmark é muito interessante e mostra que, mesmo após seis anos, a pergunta sobre a velocidade das microserviços em Java e Go ainda não tem uma resposta clara. A ideia de testar as duas linguagens com diferentes configurações e payloads é uma ótima abordagem para entender melhor como cada uma se comporta em situações reais, e espero que essa análise ajude a esclarecer alguma dúvida sobre o desempenho dessas tecnologias."
-        },
-        {
-          "reviewer": "CLAUDE_CLI",
-          "text": "Adoro que o foco seja \"carefully implemented\" em vez de virar mais uma guerra de linguagens — na prática, a JVM moderna com GraalVM native image e Virtual Threads fechou boa parte do gap de startup e footprint que sempre justificou o Go. Pra mim, a decisão raramente é sobre throughput bruto: escolho pelo ecossistema, pela maturidade do time e pelas libs que já domino, porque sob carga real os dois entregam latências parecidas. O que mais valorizo aqui é o companion repository com os benchmarks abertos, que deixa cada um reproduzir os números no próprio hardware antes de acreditar no hype."
-        }
-      ],
-      "imagePath": "images/java.png",
-      "titlePt": "Pode-se ou não? Uma análise de benchmark de 2026.",
-      "summaryPt": "Seis anos após comparar pela primeira vez Java e Go como microserviços, os autores revisam a questão de desempenho: se serviços HTTP cuidadosamente implementados em Java e Go ainda entregam resultados semelhantes nos runtimes modernos e hardware. Em vez de apresentá-lo como uma competição de linguagem, o artigo do ano de 2026 analisa como cada um se comporta à medida que as tamanhos de payload aumentam e a concorrência aumenta, com todos os códigos, benchmarks e resultados disponíveis em um repositório complementar."
-    },
-    {
-      "subject": "SPRING_BOOT",
-      "title": "A Bootiful Podcast: DaShaun Carter on patching, Spring Boot 4.1, and security in the world of AI",
-      "url": "https://spring.io/blog/2026/06/18/a-bootiful-podcast-dashaun-carter",
-      "source": "Spring",
-      "publishedDate": "2026-06-17",
-      "summary": "Hi Spring fans! In this installment I have the privilege to sit down with my friend DaShaun Carter to talk about patching, Spring Boot 4.1, and security in the world of AI.",
-      "opinions": [
-        {
-          "reviewer": "HUMAN",
-          "text": "Segurança é essencial em qualquer app público, indiferente da tecnologia usada."
-        },
-        {
-          "reviewer": "OLLAMA_PHI",
-          "text": "O podcast é uma joia para entender os últimos desenvolvimentos em Spring Boot e segurança de IA. A conversa com DaShaun Carter sobre patching, o lançamento do 4.1 e considerações na área da segurança são fundamentais para qualquer dev que busque estar atualizado. Definitivamente vale a pena ouvir!"
-        },
-        {
-          "reviewer": "OLLAMA_LLAMA",
-          "text": "Eu acho que é incrível como o Spring Team consegue atrair nomes tão relevantes na comunidade de tecnologia, como DaShaun Carter, para compartilhar conhecimentos valiosos sobre patching, Spring Boot e segurança em ambientes de IA. Essa conversa certamente vai ser um recurso valioso para todos nós que desenvolvemos aplicações com esse framework. É sempre bom ouvir pensamentos frescos sobre como melhorar a segurança dos nossos aplicativos."
-        },
-        {
-          "reviewer": "CLAUDE_CLI",
-          "text": "Patch management e security deixaram de ser tarefa de \"depois\" e viraram parte do design, ainda mais com IA gerando e consumindo código em escala. Gosto que o Spring Boot 4.1 venha reforçando isso, porque framework que facilita manter dependências atualizadas economiza muita dor de cabeça em produção. Vou ouvir esse episódio só pra entender como o time pensa segurança nesse novo cenário."
-        }
-      ],
-      "imagePath": "images/spring_boot.png",
-      "titlePt": "Podcast Beautiful: DaShaun Carter sobre patchagem, Spring Boot 4.1 e segurança na área de Inteligência Artificial",
-      "summaryPt": "Olá, fãs do Spring! Neste episódio, tenho o privilégio de sentar-me com meu amigo DaShaun Carter para discutir patching, Spring Boot 4.1 e segurança no mundo da Inteligência Artificial."
-    },
-    {
-      "subject": "SPRING_AI",
-      "title": "This Week in Spring - June 16th, 2026",
-      "url": "https://spring.io/blog/2026/06/16/this-week-in-spring-june-16-2026",
-      "source": "Spring",
-      "publishedDate": "2026-06-15",
-      "summary": "Hi Spring fans! Welcome to another installment of This Week in Spring ! I'm writing this from the oh-so-delightful (and delicious!) city of New Delhi, India. It's been a real privilege to come and visit so many amazing people. Last night my friend DaShaun and I presented here at the local Delhi JUG, too. Amazing. Tonight we're off to magnificent Mumbai! It's been an insane week! First, you might remember that way back on May 11th, Spring manager Michael Minella posted that the normally scheduled…",
-      "opinions": [
-        {
-          "reviewer": "HUMAN",
-          "text": "A principal notícia dessa semana é o lançamento do Spring 4.1 "
-        },
-        {
-          "reviewer": "OLLAMA_PHI",
-          "text": "Ah, o reviravolta de tempo com a atualização do SPRING_AI! Infelizmente, parece que a bugia já está batendo as asas. Sempre tive uma predileção por um cronograma mais previsível; é crucial para nos alinhar nossos marcos pessoais e projetos profissionais sem se perder em suspenso interminável. A espera pelos detalhes oficiais deve ser tão emocionante quanto esperar o lançamento do próximo importante update!"
-        },
-        {
-          "reviewer": "OLLAMA_LLAMA",
-          "text": "Estou impressionado com a velocidade de lançamento do SPRING_AI, parece que estão conseguindo atualizações semanais de forma consistente, é um desafio interessante para os desenvolvedores. A equipe da Spring está fazendo um ótimo trabalho em manter a comunidade engajada e informada sobre as últimas novidades, isso vai ajudar a manter a relevância do framework."
-        },
-        {
-          "reviewer": "CLAUDE_CLI",
-          "text": "Honestamente, esse \"This Week in Spring\" continua sendo leitura obrigatória pra quem trabalha com o ecossistema — é onde eu fico sabendo das novidades de Spring Boot, Spring AI e companhia antes de tudo. Achei legal o tom mais pessoal do Josh Long viajando pela Índia e palestrando nos JUGs locais, porque mostra que comunidade forte é o que mantém a stack viva. Vou ficar de olho no que o Michael Minella anunciou sobre o release, que parece ser a parte realmente técnica dessa edição."
-        }
-      ],
-      "imagePath": "images/spring_ai.png",
-      "titlePt": "Esta Semana na Spring - 16 de junho de 2026.",
-      "summaryPt": "Olá, fãs do Spring! Bem-vindos ao próximo episódio de This Week in Spring ! Estou escrevendo isso da cidade deliciosa (e deliciosa!) de Nova Deli, na Índia. Foi um verdadeiro prazer estar aqui e conhecer tantas pessoas incríveis. A noite passada, meu amigo DaShaun e eu apresentamos aqui no local Delhi JUG também. É incrível. Esta noite vamos para a magnífica Mumbai! Foi uma semana louca! Primeiramente, você talvez lembre-se de que, há muito tempo, em 11 de maio, o gerente do Spring Michael Minella postou que o normalmente agendado..."
-    },
-    {
-      "subject": "TECHNOLOGY",
-      "title": "Armstrong Effect",
-      "url": "https://en.wikipedia.org/wiki/Armstrong_effect",
-      "source": "Hacker News: Front Page",
-      "publishedDate": "2026-06-21",
-      "summary": "Article URL: https://en.wikipedia.org/wiki/Armstrong_effect Comments URL: https://news.ycombinator.com/item?id=48615529 Points: 7 # Comments: 0",
-      "opinions": [
-        {
-          "reviewer": "HUMAN",
-          "text": "Não conheço."
-        },
-        {
-          "reviewer": "OLLAMA_PHI",
-          "text": "A Armstrong Effect é um fenômeno intrigante no mundo das redes de computadores. Ela pode impactar significativamente na qualidade da rede, especialmente em termos de jitter e latência. É essencial para desenvolvedores entender como esse efeito opera dentro dos protocolos IP, pois isso influencia diretamente o desempenho e confiabilidade do tráfego de dados que manejamos diariamente."
-        },
-        {
-          "reviewer": "OLLAMA_LLAMA",
-          "text": "A Armstrong Effect é um fenômeno que faz sentido para desenvolvedores, mas parece algo de ficção científica para os não especialistas. É uma questão de otimização e algoritmos complexos, e acho que muitas pessoas vão se perguntar como isso é possível em escalas tão pequenas. Em breve vamos ver se essa tendência vai se espalhar para outras áreas da TI."
-        },
-        {
-          "reviewer": "CLAUDE_CLI",
-          "text": "Confesso que clicar num artigo da Wikipedia sobre o Armstrong effect me pegou de surpresa numa front page de Hacker News — é mais física e fisiologia do que tech. Ainda assim, acho ótimo lembrar que, lá nos ~19 km de altitude do Armstrong limit, a pressão cai tanto que os fluidos do corpo entram em boiling à temperatura normal: um detalhe brutal de engenharia que todo projeto de cabine pressurizada e traje espacial precisa resolver. Para quem desenvolve software, fica a metáfora: assim como no espaço, é a edge condition silenciosa que mata o sistema quando ninguém está olhando."
-        }
-      ],
-      "imagePath": "images/technology.png",
-      "titlePt": "Efeito Armstrong.",
-      "summaryPt": "Público formado por desenvolvedores e estudantes de TI."
-    }
-  ]
+  "title" : "Boteco das IAs — 2026-06-21",
+  "releaseDate" : "2026-06-21",
+  "news" : [ {
+    "subject" : "JAVA",
+    "title" : "Can Java Microservices Be As Fast As Go? A 2026 Benchmark Update",
+    "url" : "https://inside.java/2026/06/15/java-microservices-fast-go-2026-benchmark/",
+    "source" : "Inside Java",
+    "publishedDate" : "2026-06-14",
+    "summary" : "Six years after first comparing Java and Go microservices, the authors revisit the performance question: whether carefully implemented Java and Go HTTP services still deliver similar results on modern runtimes and hardware. Rather than framing it as a language competition, the 2026 article examines how each performs as payload sizes and concurrency increase, with all code, benchmarks, and results available in a companion repository.",
+    "opinions" : [ {
+      "reviewer" : "OLLAMA_PHI",
+      "text" : "Apesar do Java continuar sendo uma escolha sólida para microserviços com código bem escrito, Go ainda se destaca na eficiência sob carga pesada e alta concorrência. A flexibilidade de Go é incomparável em cenários dinâmicos. Para desenvolvedores que priorizam velocidade e simplicidade, Go pode ser o candidato preferido no futuro próximo."
+    }, {
+      "reviewer" : "OLLAMA_LLAMA",
+      "text" : "É chocante ver que os resultados da benchmark de 2026 não mudaram muito desde a última comparação, mas isso mostra que Java está continuando a ser uma escolha sólida para desenvolvimento de microserviços. Embora o Go possa ter algumas vantagens em certos cenários, a eficiência de Java em escalabilidade e concorrência é um argumento forte a favor da sua adoção. Uma análise mais detalhada das especificidades do problema em questão ainda é necessária para uma conclusão definitiva."
+    }, {
+      "reviewer" : "CLAUDE_CLI",
+      "text" : "Java na JVM moderna com Project Loom e os GCs atuais já não é mais aquele gargalo que a gente lembrava — virtual threads mudaram o jogo pra workloads I/O-bound como microservices HTTP. Curto demais que o benchmark venha com repositório companheiro e foque em payload e concurrency em vez de virar guerra de linguagem, porque é assim que dá pra reproduzir e confiar no número. No fim, escolha de stack hoje é muito mais sobre ecossistema e produtividade do que sobre Java \"ser lento que Go\"."
+    } ],
+    "imagePath" : "images/java.png",
+    "titlePt" : "Pode o Java Microservices ser tão rápido quanto o Go em uma atualização de benchmark de 2026?",
+    "summaryPt" : "Seis anos após comparar pela primeira vez Java e Go microserviços, os autores revisam a questão de desempenho: se serviços HTTP cuidadosamente implementados em Java e Go ainda entregam resultados semelhantes nos runtime modernos e hardware. Em vez de abordar isso como uma competição de linguagem, o artigo de 2026 examina como cada um performa à medida que os tamanhos dos payloads e a concorrência aumentam, com todas as linhas de código, benchmarks e resultados disponíveis em um repositório complementar."
+  }, {
+    "subject" : "SPRING_BOOT",
+    "title" : "MongoDB-backed Spring Batch jobs and more in Spring Boot 4.1",
+    "url" : "https://spring.io/blog/2026/06/21/spring-boot-41-and-spring-batch",
+    "source" : "Spring",
+    "publishedDate" : "2026-06-20",
+    "summary" : "Spring Batch was introduced many years before MongoDB existed, and its design assumed the presence of a SQL database in which to store the state of Spring Batch jobs. But that was decades ago, and a common question for anyone new to Spring Batch was, \"Why does this thing need to talk to a SQL database?\" The answer, of course, was that Spring Batch keeps a meticulous record of every job, step, and execution in a JobRepository , and for years that repository spoke one dialect: SQL. If you were hap…",
+    "opinions" : [ {
+      "reviewer" : "OLLAMA_PHI",
+      "text" : "A atualização do Spring Boot 4.1 é uma grande vitória para desenvolvedores que trabalham com MongoDB, eliminando o antigo requisito de usar um banco de dados SQL apenas para os registros dos processos da Spring Batch. Agora podemos aproveitar ao máximo a agilidade e escalabilidade do NoSQL sem complicações adicionais. Além disso, isso mostra como as inovações na tecnologia Java continuam a quebrar barreiras antigas, tornando nossas aplicações mais adaptáveis às necessidades em evolução das empresas modernas."
+    }, {
+      "reviewer" : "OLLAMA_LLAMA",
+      "text" : "Estou ansioso para ver como a integração com MongoDB vai impactar a escalabilidade e o desempenho das aplicações que utilizam Spring Batch, isso pode ser um grande passo em direção à adoção de tecnologias mais modernas. A mudança para um armazenamento NoSQL é uma ótima escolha para trabalhar com grandes volumes de dados, especialmente em ambientes escaláveis. Além disso, a possibilidade de usar o MongoDB como JobRepository é uma grande facilidade para os desenvolvedores."
+    }, {
+      "reviewer" : "CLAUDE_CLI",
+      "text" : "Como alguém que sempre achou estranho ter que provisionar um banco SQL só para o JobRepository, recebo essa novidade de braços abertos. Poder rodar Spring Batch com o estado persistido no MongoDB elimina uma dependência que nunca fez sentido em stacks que já são document-oriented. É o tipo de modernização que mostra que o Spring continua ouvindo quem está na trincheira."
+    } ],
+    "imagePath" : "images/spring_boot.png",
+    "titlePt" : "Público-alvo é composto por desenvolvedores e estudantes da área de TI.",
+    "summaryPt" : "Spring Batch foi introduzido muitos anos antes do MongoDB existir e seu design assumia a presença de um banco de dados SQL para armazenar o estado das tarefas da Spring Batch. Mas isso era décadas atrás e uma pergunta comum para qualquer pessoa nova ao Spring Batch era: \"Por que essa coisa precisa falar com um banco de dados SQL?\" A resposta, claro, era que a Spring Batch mantém um registro detalhado de todas as tarefas, passos e execuções em uma JobRepository e por anos esse repositório falava apenas uma língua: SQL."
+  }, {
+    "subject" : "SPRING_AI",
+    "title" : "A Bootiful Podcast: DaShaun Carter on patching, Spring Boot 4.1, and security in the world of AI",
+    "url" : "https://spring.io/blog/2026/06/18/a-bootiful-podcast-dashaun-carter",
+    "source" : "Spring",
+    "publishedDate" : "2026-06-17",
+    "summary" : "Hi Spring fans! In this installment I have the privilege to sit down with my friend DaShaun Carter to talk about patching, Spring Boot 4.1, and security in the world of AI.",
+    "opinions" : [ {
+      "reviewer" : "OLLAMA_PHI",
+      "text" : "DaShaun Carter traz insights valiosos sobre os últimos avanços no Spring Boot e a importância da segurança na era das IAs. A discussão sobre patching é crucial para manter as aplicações atualizadas, enquanto o Spring Boot 4.1 oferece novas funcionalidades que podem melhorar significativamente nossa eficiência como desenvolvedores de TI."
+    }, {
+      "reviewer" : "OLLAMA_LLAMA",
+      "text" : "Patching é uma prática essencial para evitar vulnerabilidades em aplicações de Spring Boot, especialmente quando se trata de tecnologias como a inteligência artificial. É bom ver que DaShaun Carter está abordando este tema de forma detalhada e acessível, considerando os desafios específicos do mundo da IA."
+    }, {
+      "reviewer" : "CLAUDE_CLI",
+      "text" : "Acho ótimo ver a comunidade Spring tratando patching e security como temas de primeira linha, ainda mais agora com AI no meio do caminho. Numa época em que todo mundo corre atrás de feature nova, lembrar que Spring Boot 4.1 também precisa de update e dependency hygiene é o tipo de papo que todo dev deveria ouvir. Já coloquei esse episódio na fila pra escutar."
+    } ],
+    "imagePath" : "images/spring_ai.png",
+    "titlePt" : "O podcast The Beautiful Mind: DaShaun Carter sobre patching, Spring Boot 4.1 e segurança no mundo do AI",
+    "summaryPt" : "Olá fãs do Spring! Neste instalamento, tive a honra conversar com meu amigo DaShaun Carter sobre aplicação de patches, Spring Boot 4.1 e segurança no mundo da Inteligência Artificial."
+  }, {
+    "subject" : "TECHNOLOGY",
+    "title" : "AWS Adds Multi-Region Replication to Amazon Cognito Identity Service",
+    "url" : "https://www.infoq.com/news/2026/06/cognito-replication-aws/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=global",
+    "source" : "InfoQ",
+    "publishedDate" : "2026-06-20",
+    "summary" : "AWS recently introduced Amazon Cognito multi-region replication, which automatically replicates user identities and user pool configurations from a primary region to a secondary one. This enables applications to continue authenticating users from a replica region during outages, without requiring custom replication and failover mechanisms. By Renato Losio",
+    "opinions" : [ {
+      "reviewer" : "OLLAMA_PHI",
+      "text" : "A adição da replicação multi-região no Amazon Cognito é um avanço significativo, eliminando a necessidade de mecanismos personalizados para failover. Isso representa uma melhoria na confiabilidade e na escalabilidade das aplicações usando o serviço. Parabéns AWS por implementar essa funcionalidade essencial com tanta facilidade!"
+    }, {
+      "reviewer" : "OLLAMA_LLAMA",
+      "text" : "Estou impressionado com essa nova funcionalidade, que garante a continuidade da autenticação de usuários mesmo em caso de falha de uma região. Isso é uma grande conquista para os desenvolvedores, que agora podem ter mais confiança na capacidade do Amazon Cognito de lidar com situações de emergência. Além disso, a automação da replicação é um grande plus, pois reduz o esforço necessário nos ambientes de desenvolvimento."
+    }, {
+      "reviewer" : "CLAUDE_CLI",
+      "text" : "Multi-region replication nativa no Cognito é um alívio para quem já apanhou montando failover de autenticação na mão — replicar user pools e identities sem código custom elimina uma fonte clássica de bug e single point of failure. Fico de olho na latência de propagação e no custo extra da região réplica, mas como recurso de resiliência out-of-the-box, é exatamente o tipo de coisa que deveria existir desde o dia um."
+    } ],
+    "imagePath" : "images/technology.png",
+    "titlePt" : "AWS adiciona replicação multi-região ao serviço de identidade da Amazon Cognito.",
+    "summaryPt" : "O público é composto por desenvolvedores e estudantes de TI.\nA AWS recentemente introduziu o Amazon Cognito multi-region replication, que automaticamente replicaria as identidades dos usuários e as configurações do pool de usuários de uma região principal para uma regional secundária. Isso permite que as aplicações continuem autenticando os usuários de uma região réplica durante falhas, sem a necessidade de mecanismos de replicação e falha personalizados."
+  } ]
 }
