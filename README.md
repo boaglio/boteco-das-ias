@@ -21,25 +21,26 @@ Para cada notícia, quatro opiniões em formato de conversa:
 
 ## Pipeline
 
-Cada estágio lê/grava o mesmo `releases/<data>/magazine.json`:
+Tudo roda por um único script — sem `java` na mão. Cada estágio lê/grava o
+mesmo `releases/<data>/magazine.json`:
 
 ```bash
-mvn package
-java -jar target/boteco-das-ias-*.jar gather      # 1. melhores notícias por assunto (sem repetir)
-java -jar target/boteco-das-ias-*.jar translate   # 2. traduz título/resumo para pt-BR
-java -jar target/boteco-das-ias-*.jar collect      # 3. opiniões dos modelos
-scripts/input-opinion.sh                           #    sua opinião (opcional, interativo)
-java -jar target/boteco-das-ias-*.jar illustrate   # 4. imagem anime por notícia (sem texto)
-java -jar target/boteco-das-ias-*.jar render       # 5. magazine.html + cards do LinkedIn
+scripts/boteco.sh all        # estágios 1..5: gather → translate → collect → illustrate → render
+scripts/boteco.sh opine      # sua opinião (interativo; oferece re-render + imagens)
+scripts/boteco.sh publish    # atualiza a página inicial e a lista de edições
+# ou, de uma vez:
+scripts/boteco.sh weekly     # all → opine → publish
 ```
 
-As etapas também podem ser encadeadas: `java -jar ... gather translate collect illustrate render`.
+Estágios individuais: `scripts/boteco.sh gather|translate|collect|illustrate|render`.
+Flags extras via env, ex.: `BOTECO_ARGS="--boteco.comfyui.steps=14" scripts/boteco.sh all`.
+`scripts/boteco.sh help` lista tudo.
 
 ## Saída
 
 - **HTML**: `releases/<data>/magazine.html`, publicado no GitHub Pages (veja as edições abaixo).
 - **LinkedIn**: uma imagem por notícia + sua conversa, geradas por
-  `scripts/linkedin-images.sh [data]` em `releases/<data>/linkedin/`, para subir
+  `scripts/boteco.sh images [data]` em `releases/<data>/linkedin/`, para subir
   manualmente em um artigo do LinkedIn.
 
 Para atualizar a página inicial e a lista de edições: `scripts/publish.sh`, depois `commit` + `push`.
