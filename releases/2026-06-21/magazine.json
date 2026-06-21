@@ -11,6 +11,10 @@
       "summary": "Six years after first comparing Java and Go microservices, the authors revisit the performance question: whether carefully implemented Java and Go HTTP services still deliver similar results on modern runtimes and hardware. Rather than framing it as a language competition, the 2026 article examines how each performs as payload sizes and concurrency increase, with all code, benchmarks, and results available in a companion repository.",
       "opinions": [
         {
+          "reviewer": "HUMAN",
+          "text": "Indiferente do resultado, tem espaço para todos."
+        },
+        {
           "reviewer": "OLLAMA_PHI",
           "text": "Eu acho que o Java ainda tem seu peso de confiança em aplicações microservidores com as melhorias contínuas na JVM. No entanto, Go parece estar ganhando terreno pela simplicidade e eficiência no tratamento do concorrência-heavy. A escolha realmente depende das necessidades específicas da aplicação. #JavaVsGo2026"
         },
@@ -35,6 +39,10 @@
       "publishedDate": "2026-06-17",
       "summary": "Hi Spring fans! In this installment I have the privilege to sit down with my friend DaShaun Carter to talk about patching, Spring Boot 4.1, and security in the world of AI.",
       "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "Segurança é essencial em qualquer app público, indiferente da tecnologia usada."
+        },
         {
           "reviewer": "OLLAMA_PHI",
           "text": "O podcast é uma joia para entender os últimos desenvolvimentos em Spring Boot e segurança de IA. A conversa com DaShaun Carter sobre patching, o lançamento do 4.1 e considerações na área da segurança são fundamentais para qualquer dev que busque estar atualizado. Definitivamente vale a pena ouvir!"
@@ -61,6 +69,10 @@
       "summary": "Hi Spring fans! Welcome to another installment of This Week in Spring ! I'm writing this from the oh-so-delightful (and delicious!) city of New Delhi, India. It's been a real privilege to come and visit so many amazing people. Last night my friend DaShaun and I presented here at the local Delhi JUG, too. Amazing. Tonight we're off to magnificent Mumbai! It's been an insane week! First, you might remember that way back on May 11th, Spring manager Michael Minella posted that the normally scheduled…",
       "opinions": [
         {
+          "reviewer": "HUMAN",
+          "text": "A principal notícia dessa semana é o lançamento do Spring 4.1 "
+        },
+        {
           "reviewer": "OLLAMA_PHI",
           "text": "Ah, o reviravolta de tempo com a atualização do SPRING_AI! Infelizmente, parece que a bugia já está batendo as asas. Sempre tive uma predileção por um cronograma mais previsível; é crucial para nos alinhar nossos marcos pessoais e projetos profissionais sem se perder em suspenso interminável. A espera pelos detalhes oficiais deve ser tão emocionante quanto esperar o lançamento do próximo importante update!"
         },
@@ -85,6 +97,10 @@
       "publishedDate": "2026-06-21",
       "summary": "Article URL: https://en.wikipedia.org/wiki/Armstrong_effect Comments URL: https://news.ycombinator.com/item?id=48615529 Points: 7 # Comments: 0",
       "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "Não conheço."
+        },
         {
           "reviewer": "OLLAMA_PHI",
           "text": "A Armstrong Effect é um fenômeno intrigante no mundo das redes de computadores. Ela pode impactar significativamente na qualidade da rede, especialmente em termos de jitter e latência. É essencial para desenvolvedores entender como esse efeito opera dentro dos protocolos IP, pois isso influencia diretamente o desempenho e confiabilidade do tráfego de dados que manejamos diariamente."
