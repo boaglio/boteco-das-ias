@@ -4,10 +4,10 @@ package com.boaglio.boteco.das.ias.model;
 public enum Reviewer {
     /** Claude Code CLI, invoked locally via {@code claude -p}. */
     CLAUDE_CLI,
-    /** Local Ollama running the GPT-OSS model. */
-    OLLAMA_GPT_OSS,
-    /** Local Ollama running the Llama3 model. */
-    OLLAMA_LLAMA3,
+    /** Local Ollama running Microsoft's Phi-4 mini model. */
+    OLLAMA_PHI,
+    /** Local Ollama running Meta's Llama 3.2 model. */
+    OLLAMA_LLAMA,
     /** The human operator, prompted interactively on the console. */
     HUMAN
 }

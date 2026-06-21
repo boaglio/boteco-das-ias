@@ -5,16 +5,16 @@ import com.boaglio.boteco.das.ias.model.Reviewer;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.stereotype.Component;
 
-/** Reviewer backed by local Ollama running the GPT-OSS model. */
+/** Reviewer backed by local Ollama running Microsoft's Phi-4 mini model. */
 @Component
-public class OllamaGptOssEngine extends OllamaOpinionEngine {
+public class OllamaPhiEngine extends OllamaOpinionEngine {
 
-    public OllamaGptOssEngine(ChatModel chatModel, BotecoProperties properties) {
-        super(chatModel, properties.reviewers().ollama().gptOssModel());
+    public OllamaPhiEngine(ChatModel chatModel, BotecoProperties properties) {
+        super(chatModel, properties.reviewers().ollama().phiModel());
     }
 
     @Override
     public Reviewer reviewer() {
-        return Reviewer.OLLAMA_GPT_OSS;
+        return Reviewer.OLLAMA_PHI;
     }
 }

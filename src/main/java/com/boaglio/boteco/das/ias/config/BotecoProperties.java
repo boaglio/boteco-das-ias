@@ -15,8 +15,23 @@ public record BotecoProperties(
         Feeds feeds,
         Reviewers reviewers,
         ComfyUi comfyui,
-        String releasesDir
+        String releasesDir,
+        String logoFile,
+        Author author,
+        List<FooterLink> footerLinks
 ) {
+
+    public BotecoProperties {
+        footerLinks = footerLinks == null ? List.of() : List.copyOf(footerLinks);
+    }
+
+    /** The human reviewer's display name and avatar image. */
+    public record Author(String name, String avatarFile) {
+    }
+
+    /** One footer link (label, URL and icon slug), sourced from the author's Linktree. */
+    public record FooterLink(String label, String url, String icon) {
+    }
 
     /** Official feed URLs per category. */
     public record Feeds(
@@ -42,11 +57,19 @@ public record BotecoProperties(
         public record ClaudeCli(String command, String promptFlag) {
         }
 
-        public record Ollama(String gptOssModel, String llama3Model) {
+        public record Ollama(String phiModel, String llamaModel) {
         }
     }
 
     /** Local ComfyUI image generation settings. */
-    public record ComfyUi(String baseUrl, String stylePrompt) {
+    public record ComfyUi(
+            String baseUrl,
+            String stylePrompt,
+            String negativePrompt,
+            String checkpoint,
+            int width,
+            int height,
+            int steps
+    ) {
     }
 }

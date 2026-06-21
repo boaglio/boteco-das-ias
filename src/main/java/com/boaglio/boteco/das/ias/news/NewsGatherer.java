@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 /**
  * Stage 1 of the build process: gather last-week news from the official feeds,
@@ -33,19 +33,30 @@ public class NewsGatherer {
 
     /** Builds a magazine for today's release date with one news item per subject. */
     public Magazine gather() {
-        LocalDate releaseDate = LocalDate.now();
-        List<News> selected = new ArrayList<>();
-        for (Subject subject : Subject.values()) {
-            List<String> feeds = properties.feeds().forSubject(subject);
-            List<News> candidates = feedReader.readRecent(subject, feeds, properties.newsWindowDays());
+        var releaseDate = LocalDate.now();
+        var selected = new ArrayList<News>();
+        // Keys of items already chosen, so no article repeats across subjects
+        // (some subjects share a feed, e.g. Spring Boot and Spring AI).
+        var alreadyChosen = new HashSet<String>();
+        for (var subject : Subject.values()) {
+            var feeds = properties.feeds().forSubject(subject);
+            var candidates = feedReader.readRecent(subject, feeds, properties.newsWindowDays()).stream()
+                    .filter(news -> !alreadyChosen.contains(key(news)))
+                    .toList();
             selector.selectBest(subject, candidates).ifPresentOrElse(
                     best -> {
                         log.info("{}: selected \"{}\" ({})", subject, best.title(), best.source());
                         selected.add(best);
+                        alreadyChosen.add(key(best));
                     },
                     () -> log.warn("{}: no news found within the window", subject));
         }
-        String title = properties.title().replace("{date}", releaseDate.toString());
+        var title = properties.title().replace("{date}", releaseDate.toString());
         return new Magazine(title, releaseDate, selected);
+    }
+
+    /** Dedup key for a news item: its URL when present, otherwise its title. */
+    private static String key(News news) {
+        return news.url() != null && !news.url().isBlank() ? news.url() : news.title();
     }
 }

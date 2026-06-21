@@ -5,16 +5,16 @@ import com.boaglio.boteco.das.ias.model.Reviewer;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.stereotype.Component;
 
-/** Reviewer backed by local Ollama running the Llama3 model. */
+/** Reviewer backed by local Ollama running Meta's Llama 3.2 model. */
 @Component
-public class OllamaLlama3Engine extends OllamaOpinionEngine {
+public class OllamaLlamaEngine extends OllamaOpinionEngine {
 
-    public OllamaLlama3Engine(ChatModel chatModel, BotecoProperties properties) {
-        super(chatModel, properties.reviewers().ollama().llama3Model());
+    public OllamaLlamaEngine(ChatModel chatModel, BotecoProperties properties) {
+        super(chatModel, properties.reviewers().ollama().llamaModel());
     }
 
     @Override
     public Reviewer reviewer() {
-        return Reviewer.OLLAMA_LLAMA3;
+        return Reviewer.OLLAMA_LLAMA;
     }
 }

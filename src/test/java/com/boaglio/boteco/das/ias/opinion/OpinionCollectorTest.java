@@ -26,7 +26,7 @@ class OpinionCollectorTest {
 
     private Magazine oneItemMagazine() {
         News news = new News(Subject.JAVA, "JEP news", "https://x", "inside.java",
-                LocalDate.of(2026, 6, 18), "summary", List.of(), null);
+                LocalDate.of(2026, 6, 18), "summary", List.of(), null, null, null);
         return new Magazine("title", LocalDate.of(2026, 6, 20), List.of(news));
     }
 
@@ -36,27 +36,27 @@ class OpinionCollectorTest {
         List<OpinionEngine> engines = List.of(
                 new FakeEngine(Reviewer.CLAUDE_CLI, "claude take", false),
                 new FakeEngine(Reviewer.HUMAN, "my take", false),
-                new FakeEngine(Reviewer.OLLAMA_LLAMA3, "llama take", false),
-                new FakeEngine(Reviewer.OLLAMA_GPT_OSS, "gpt take", false));
+                new FakeEngine(Reviewer.OLLAMA_LLAMA, "llama take", false),
+                new FakeEngine(Reviewer.OLLAMA_PHI, "phi take", false));
 
         Magazine result = new OpinionCollector(engines).collect(oneItemMagazine());
 
         List<Opinion> opinions = result.news().get(0).opinions();
         assertThat(opinions).extracting(Opinion::reviewer).containsExactly(
-                Reviewer.HUMAN, Reviewer.OLLAMA_GPT_OSS, Reviewer.OLLAMA_LLAMA3, Reviewer.CLAUDE_CLI);
+                Reviewer.HUMAN, Reviewer.OLLAMA_PHI, Reviewer.OLLAMA_LLAMA, Reviewer.CLAUDE_CLI);
     }
 
     @Test
     void skipsFailingEngineButKeepsTheRest() {
         List<OpinionEngine> engines = List.of(
                 new FakeEngine(Reviewer.HUMAN, "my take", false),
-                new FakeEngine(Reviewer.OLLAMA_GPT_OSS, null, true),
-                new FakeEngine(Reviewer.OLLAMA_LLAMA3, "llama take", false),
+                new FakeEngine(Reviewer.OLLAMA_PHI, null, true),
+                new FakeEngine(Reviewer.OLLAMA_LLAMA, "llama take", false),
                 new FakeEngine(Reviewer.CLAUDE_CLI, "claude take", false));
 
         Magazine result = new OpinionCollector(engines).collect(oneItemMagazine());
 
         assertThat(result.news().get(0).opinions()).extracting(Opinion::reviewer)
-                .containsExactly(Reviewer.HUMAN, Reviewer.OLLAMA_LLAMA3, Reviewer.CLAUDE_CLI);
+                .containsExactly(Reviewer.HUMAN, Reviewer.OLLAMA_LLAMA, Reviewer.CLAUDE_CLI);
     }
 }

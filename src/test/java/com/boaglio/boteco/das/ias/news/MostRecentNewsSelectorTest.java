@@ -15,7 +15,7 @@ class MostRecentNewsSelectorTest {
     private final MostRecentNewsSelector selector = new MostRecentNewsSelector();
 
     private News news(String title, LocalDate published) {
-        return new News(Subject.JAVA, title, "https://x/" + title, "src", published, "", List.of(), null);
+        return new News(Subject.JAVA, title, "https://x/" + title, "src", published, "", List.of(), null, null, null);
     }
 
     @Test

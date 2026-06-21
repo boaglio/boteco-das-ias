@@ -1,6 +1,14 @@
 spring:
   application:
     name: boteco-das-ias
+  # This is a command-line pipeline, not a web app — don't start a web server.
+  main:
+    web-application-type: none
+  # Local models run on CPU here, so give Ollama plenty of time to respond.
+  http:
+    client:
+      connect-timeout: 30s
+      read-timeout: 600s
   ai:
     ollama:
       base-url: http://localhost:11434
@@ -36,16 +44,41 @@ boteco:
       command: claude
       prompt-flag: "-p"
     ollama:
-      gpt-oss-model: gpt-oss
-      llama3-model: llama3
+      phi-model: phi4-mini        # Microsoft Phi-4 mini (~2.5 GB, fits the GPU)
+      llama-model: llama3.2       # Meta Llama 3.2 (~2 GB); also used for translation
 
   # Local ComfyUI for anime-style image generation.
   comfyui:
     base-url: http://localhost:8188
-    style-prompt: "anime illustration, vibrant colors, clean lines"
+    style-prompt: "anime illustration, vibrant colors, clean lines, highly detailed"
+    # Keep all text/lettering out of generated images.
+    negative-prompt: "text, words, letters, lettering, captions, typography, numbers, label, watermark, signature, logo, blurry, low quality, deformed, extra limbs"
+    checkpoint: "v1-5-pruned-emaonly.safetensors"
+    width: 512
+    height: 512
+    steps: 25
 
   # Output location for finished releases.
   releases-dir: releases
+
+  # Magazine brand logo (robots having fun); copied into each release on render.
+  logo-file: assets/logo.png
+
+  # The human reviewer ("my opinion" row).
+  author:
+    name: "Fernando Boaglio"
+    avatar-file: assets/avatar.png
+
+  # Footer links, curated from https://linktr.ee/boaglio (professional/social).
+  footer-links:
+    - { label: "TechBlog", url: "https://boaglio.com", icon: "blog" }
+    - { label: "GitHub", url: "https://github.com/boaglio", icon: "github" }
+    - { label: "LinkedIn", url: "https://www.linkedin.com/in/boaglio/", icon: "linkedin" }
+    - { label: "YouTube — DevMultitask", url: "http://youtube.com/DevMultitask", icon: "youtube" }
+    - { label: "Twitter", url: "https://twitter.com/boaglio", icon: "x" }
+    - { label: "Casa do Código — Meus Livros", url: "https://www.casadocodigo.com.br/search?type=product&q=boaglio", icon: "book" }
+    - { label: "Amazon — Meus Livros", url: "https://www.amazon.com.br/s?i=stripbooks&rh=p_27%3AFernando+Boaglio", icon: "amazon" }
+    - { label: "Todos os links", url: "https://linktr.ee/boaglio", icon: "link" }
 
 logging:
   level:

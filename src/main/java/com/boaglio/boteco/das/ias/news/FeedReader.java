@@ -65,6 +65,8 @@ public class FeedReader {
                         published,
                         summarize(entry),
                         List.of(),
+                        null,
+                        null,
                         null
                 ));
             }
