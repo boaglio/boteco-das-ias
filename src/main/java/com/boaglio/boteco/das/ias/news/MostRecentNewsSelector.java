@@ -17,7 +17,13 @@ public class MostRecentNewsSelector implements NewsSelector {
 
     @Override
     public Optional<News> selectBest(Subject subject, List<News> candidates) {
-        return candidates.stream()
+        // Prefer items that actually carry a readable summary (skip bare links
+        // like a Wikipedia URL from an aggregator); fall back to all if none do.
+        var withSummary = candidates.stream()
+                .filter(news -> news.summary() != null && !news.summary().isBlank())
+                .toList();
+        var pool = withSummary.isEmpty() ? candidates : withSummary;
+        return pool.stream()
                 .max(Comparator.comparing(News::publishedDate)
                         .thenComparing(News::title, Comparator.reverseOrder()));
     }

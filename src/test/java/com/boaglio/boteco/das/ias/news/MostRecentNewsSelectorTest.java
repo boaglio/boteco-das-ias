@@ -15,7 +15,12 @@ class MostRecentNewsSelectorTest {
     private final MostRecentNewsSelector selector = new MostRecentNewsSelector();
 
     private News news(String title, LocalDate published) {
-        return new News(Subject.JAVA, title, "https://x/" + title, "src", published, "", List.of(), null, null, null);
+        return news(title, published, "");
+    }
+
+    private News news(String title, LocalDate published, String summary) {
+        return new News(Subject.JAVA, title, "https://x/" + title, "src", published, summary,
+                List.of(), null, null, null);
     }
 
     @Test
@@ -26,6 +31,24 @@ class MostRecentNewsSelectorTest {
         Optional<News> best = selector.selectBest(Subject.JAVA, List.of(older, newer));
 
         assertThat(best).contains(newer);
+    }
+
+    @Test
+    void prefersACandidateWithASummaryOverANewerBareLink() {
+        News newerNoSummary = news("newer", LocalDate.of(2026, 6, 18), "");
+        News olderWithSummary = news("older", LocalDate.of(2026, 6, 12), "a real abstract");
+
+        Optional<News> best = selector.selectBest(Subject.JAVA, List.of(newerNoSummary, olderWithSummary));
+
+        assertThat(best).contains(olderWithSummary);
+    }
+
+    @Test
+    void fallsBackToMostRecentWhenNoneHaveASummary() {
+        News older = news("older", LocalDate.of(2026, 6, 10));
+        News newer = news("newer", LocalDate.of(2026, 6, 18));
+
+        assertThat(selector.selectBest(Subject.JAVA, List.of(older, newer))).contains(newer);
     }
 
     @Test

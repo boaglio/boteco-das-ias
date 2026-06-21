@@ -32,11 +32,12 @@ boteco:
     spring-ai:
       - https://spring.io/blog.atom
     technology:
+      # Real tech-news sources that ship article abstracts. (Dropped the HN
+      # front page — an aggregator that links arbitrary sites with no summary —
+      # and cacm.acm.org, which returns 403.)
       - https://feed.infoq.com/
       - https://github.blog/feed/
-      - https://hnrss.org/frontpage
       - https://techcrunch.com/feed/
-      - https://cacm.acm.org/feed/
 
   # Opinion engines.
   reviewers:

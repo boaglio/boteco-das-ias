@@ -87,6 +87,18 @@ public class FeedReader {
             return "";
         }
         String text = raw.replaceAll("<[^>]+>", " ").replaceAll("\\s+", " ").strip();
+        if (isLinkAggregatorBoilerplate(text)) {
+            return "";
+        }
         return text.length() > SUMMARY_MAX_CHARS ? text.substring(0, SUMMARY_MAX_CHARS).strip() + "…" : text;
+    }
+
+    /**
+     * Link-aggregator feeds (e.g. Hacker News) describe a post with metadata, not
+     * an abstract: {@code Article URL: … Comments URL: … Points: …}. Treat that as
+     * no usable summary so the selector skips it.
+     */
+    private static boolean isLinkAggregatorBoilerplate(String text) {
+        return text.startsWith("Article URL:") || text.contains("Comments URL:");
     }
 }
