@@ -1,0 +1,9 @@
+# Model weights and generated images are large — keep the dirs, ignore contents.
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.png
+*.jpg
+*.jpeg

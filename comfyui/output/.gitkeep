@@ -1,0 +1,1 @@
+# ComfyUI writes rendered images here before the pipeline fetches them via /view.

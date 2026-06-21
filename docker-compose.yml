@@ -1,0 +1,41 @@
+# Local ComfyUI for stage 3 (anime-style image generation).
+# Brings up ComfyUI on http://localhost:8188 — matches boteco.comfyui.base-url.
+#
+# Quick start:
+#   1) Put a checkpoint in ./comfyui/models/checkpoints/
+#      (default app config expects v1-5-pruned-emaonly.safetensors)
+#   2) docker compose up          # foreground; logs stream here
+#   3) java -jar boteco-das-ias.jar illustrate   # in another shell
+#
+# Runs CPU-only by default so it works on any host. GPU notes at the bottom.
+services:
+  comfyui:
+    build:
+      context: ./docker/comfyui
+      args:
+        # CPU wheels by default. For CUDA 12.1: https://download.pytorch.org/whl/cu121
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cpu
+    image: boteco-comfyui:local
+    container_name: boteco-comfyui
+    ports:
+      - "8188:8188"
+    environment:
+      # --cpu forces CPU mode; set to "" when running on a GPU.
+      COMFY_ARGS: "--cpu"
+    volumes:
+      # Checkpoints/LoRAs/etc. live here; survive container rebuilds.
+      - ./comfyui/models:/app/ComfyUI/models
+      - ./comfyui/output:/app/ComfyUI/output
+    restart: unless-stopped
+
+    # --- NVIDIA GPU (optional) ---
+    # 1) set TORCH_INDEX_URL above to a CUDA wheel index (e.g. .../whl/cu121)
+    # 2) set COMFY_ARGS: ""
+    # 3) uncomment below (host needs the nvidia-container-toolkit)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
