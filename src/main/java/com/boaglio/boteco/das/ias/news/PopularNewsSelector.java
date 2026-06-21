@@ -53,7 +53,7 @@ public class PopularNewsSelector implements NewsSelector {
 
         if (best.isPresent() && best.get().getValue() > 0) {
             var pick = best.get();
-            log.info("{}: most popular \"{}\" ({} pts+comments on HN)",
+            log.info("{}: most popular \"{}\" ({} popularity points)",
                     subject, pick.getKey().title(), pick.getValue());
             return Optional.of(pick.getKey());
         }

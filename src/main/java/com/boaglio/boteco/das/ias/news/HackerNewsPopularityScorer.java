@@ -19,9 +19,14 @@ import java.time.Duration;
  * to recency-based selection.
  */
 @Component
-public class HackerNewsPopularityScorer implements PopularityScorer {
+public class HackerNewsPopularityScorer implements PopularitySource {
 
     private static final Logger log = LoggerFactory.getLogger(HackerNewsPopularityScorer.class);
+
+    @Override
+    public String name() {
+        return "HN";
+    }
 
     private final RestClient http = RestClient.builder()
             .baseUrl("https://hn.algolia.com/api/v1")
