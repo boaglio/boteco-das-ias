@@ -5,12 +5,15 @@ import com.boaglio.boteco.das.ias.model.Magazine;
 import com.boaglio.boteco.das.ias.model.News;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Translation stage of the build process: render each news item's headline and
@@ -56,13 +59,29 @@ public class NewsTranslator {
             return null;
         }
         try {
+            // Instruction as a system message, text as a user message, so the model
+            // translates the text instead of echoing the instructions.
             var prompt = new Prompt(
-                    TranslationPrompts.toBrazilianPortuguese(text),
-                    OllamaChatOptions.builder().model(model).build());
-            return chatModel.call(prompt).getResult().getOutput().getText().strip();
+                    List.of(new SystemMessage(TranslationPrompts.SYSTEM), new UserMessage(text)),
+                    OllamaChatOptions.builder().model(model).temperature(0.2).build());
+            var output = chatModel.call(prompt).getResult().getOutput().getText().strip();
+            if (output.isBlank() || leakedInstructions(output)) {
+                log.warn("Translation looked like leaked instructions, keeping original: {}", text);
+                return null;
+            }
+            return output;
         } catch (Exception e) {
             log.warn("Translation failed, keeping original text: {}", e.getMessage());
             return null;
         }
+    }
+
+    /** Safety net: reject output that echoes the prompt instead of translating. */
+    private static boolean leakedInstructions(String output) {
+        var lower = output.toLowerCase();
+        return lower.contains("termos técnicos em inglês")
+                || lower.contains("desenvolvedores e estudantes")
+                || lower.contains("professional translator")
+                || lower.contains("brazilian portuguese");
     }
 }
