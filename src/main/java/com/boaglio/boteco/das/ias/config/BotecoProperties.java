@@ -3,6 +3,7 @@ package com.boaglio.boteco.das.ias.config;
 import com.boaglio.boteco.das.ias.model.Subject;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -69,7 +70,8 @@ public record BotecoProperties(
             String checkpoint,
             int width,
             int height,
-            int steps
+            int steps,
+            Duration renderTimeout
     ) {
     }
 }

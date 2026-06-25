@@ -58,6 +58,8 @@ boteco:
     width: 512
     height: 512
     steps: 25
+    # Max time to wait for ComfyUI to finish a render; raise it on slower machines.
+    render-timeout: 20m
 
   # Output location for finished releases.
   releases-dir: releases

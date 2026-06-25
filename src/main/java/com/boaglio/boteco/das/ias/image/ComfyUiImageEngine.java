@@ -35,18 +35,20 @@ public class ComfyUiImageEngine implements ImageEngine {
     private static final Logger log = LoggerFactory.getLogger(ComfyUiImageEngine.class);
     private static final String WORKFLOW_RESOURCE = "comfyui-workflow.json";
     private static final Duration POLL_INTERVAL = Duration.ofSeconds(2);
-    private static final Duration RENDER_TIMEOUT = Duration.ofMinutes(3);
+    private static final Duration DEFAULT_RENDER_TIMEOUT = Duration.ofMinutes(20);
 
     private final BotecoProperties.ComfyUi config;
     private final ObjectMapper objectMapper;
     private final RestClient restClient;
     private final JsonNode workflowTemplate;
+    private final Duration renderTimeout;
 
     public ComfyUiImageEngine(BotecoProperties properties, ObjectMapper objectMapper) {
         this.config = properties.comfyui();
         this.objectMapper = objectMapper;
         this.restClient = RestClient.builder().baseUrl(config.baseUrl()).build();
         this.workflowTemplate = loadTemplate(objectMapper);
+        this.renderTimeout = config.renderTimeout() == null ? DEFAULT_RENDER_TIMEOUT : config.renderTimeout();
     }
 
     private static JsonNode loadTemplate(ObjectMapper mapper) {
@@ -99,7 +101,7 @@ public class ComfyUiImageEngine implements ImageEngine {
     }
 
     private JsonNode awaitImage(String promptId) throws InterruptedException {
-        var deadline = Instant.now().plus(RENDER_TIMEOUT);
+        var deadline = Instant.now().plus(renderTimeout);
         while (Instant.now().isBefore(deadline)) {
             var history = restClient.get().uri("/history/{id}", promptId)
                     .retrieve()
@@ -112,7 +114,7 @@ public class ComfyUiImageEngine implements ImageEngine {
             Thread.sleep(POLL_INTERVAL.toMillis());
         }
         throw new IllegalStateException(
-                "ComfyUI render timed out after " + RENDER_TIMEOUT + " for prompt " + promptId);
+                "ComfyUI render timed out after " + renderTimeout + " for prompt " + promptId);
     }
 
     private byte[] fetch(JsonNode image) {
