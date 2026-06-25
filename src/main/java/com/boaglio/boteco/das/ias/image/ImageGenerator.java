@@ -52,11 +52,15 @@ public class ImageGenerator {
     }
 
     private News illustrate(News news, Path imagesDir) {
+        var filename = news.subject().name().toLowerCase(Locale.ROOT) + ".png";
+        var relativePath = IMAGES_SUBDIR + "/" + filename;
+        if (Files.exists(imagesDir.resolve(filename))) {
+            log.info("{}: image {} already exists, skipping", news.subject(), relativePath);
+            return news.withImagePath(relativePath);
+        }
         try {
             var png = engine.generate(scenePrompt(news));
-            var filename = news.subject().name().toLowerCase(Locale.ROOT) + ".png";
             Files.write(imagesDir.resolve(filename), png);
-            var relativePath = IMAGES_SUBDIR + "/" + filename;
             log.info("{}: generated image {}", news.subject(), relativePath);
             return news.withImagePath(relativePath);
         } catch (Exception e) {

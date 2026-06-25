@@ -47,6 +47,29 @@ class OpinionCollectorTest {
     }
 
     @Test
+    void reusesExistingOpinionsAndOnlyRunsMissingReviewers() {
+        // The item already has the human's take from a previous run.
+        News news = new News(Subject.JAVA, "JEP news", "https://x", "inside.java",
+                LocalDate.of(2026, 6, 18), "summary",
+                List.of(new Opinion(Reviewer.HUMAN, "my take")), null, null, null);
+        Magazine magazine = new Magazine("title", LocalDate.of(2026, 6, 20), List.of(news));
+
+        // The human engine would throw if invoked, proving it is skipped.
+        List<OpinionEngine> engines = List.of(
+                new FakeEngine(Reviewer.HUMAN, null, true),
+                new FakeEngine(Reviewer.OLLAMA_PHI, "phi take", false),
+                new FakeEngine(Reviewer.OLLAMA_LLAMA, "llama take", false),
+                new FakeEngine(Reviewer.CLAUDE_CLI, "claude take", false));
+
+        Magazine result = new OpinionCollector(engines).collect(magazine);
+
+        List<Opinion> opinions = result.news().get(0).opinions();
+        assertThat(opinions).extracting(Opinion::reviewer).containsExactly(
+                Reviewer.HUMAN, Reviewer.OLLAMA_PHI, Reviewer.OLLAMA_LLAMA, Reviewer.CLAUDE_CLI);
+        assertThat(opinions.get(0).text()).isEqualTo("my take");
+    }
+
+    @Test
     void skipsFailingEngineButKeepsTheRest() {
         List<OpinionEngine> engines = List.of(
                 new FakeEngine(Reviewer.HUMAN, "my take", false),

@@ -51,6 +51,11 @@ public class MagazineStore {
         }
     }
 
+    /** Whether a working magazine already exists for the given release date. */
+    public boolean exists(LocalDate releaseDate) {
+        return Files.exists(releaseDir(releaseDate).resolve(JSON_FILE));
+    }
+
     /** Loads the working magazine for the given release date. */
     public Magazine load(LocalDate releaseDate) {
         Path jsonPath = releaseDir(releaseDate).resolve(JSON_FILE);

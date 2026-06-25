@@ -71,7 +71,9 @@ public class PipelineRunner implements ApplicationRunner {
 
     private void gather() {
         log.info("Stage 1: gathering news from official feeds…");
-        var magazine = newsGatherer.gather();
+        var today = LocalDate.now();
+        var existing = magazineStore.exists(today) ? magazineStore.load(today) : null;
+        var magazine = newsGatherer.gather(existing);
         var jsonPath = magazineStore.save(magazine);
         log.info("Gathered {} news item(s) into {}", magazine.news().size(), jsonPath);
     }

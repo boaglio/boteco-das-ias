@@ -46,11 +46,22 @@ public class NewsTranslator {
     }
 
     private News translate(News news) {
-        var titlePt = translateText(news.title());
-        var summaryPt = translateText(news.summary());
+        // Reuse translations from a previous run; only re-translate missing fields,
+        // so a retry skips work already done.
+        if (alreadyTranslated(news.titlePt()) && alreadyTranslated(news.summaryPt())) {
+            log.info("{}: translation already exists, skipping", news.subject());
+            return news;
+        }
+        var titlePt = alreadyTranslated(news.titlePt()) ? news.titlePt() : translateText(news.title());
+        var summaryPt = alreadyTranslated(news.summaryPt()) ? news.summaryPt() : translateText(news.summary());
         log.info("{}: translated headline -> {}", news.subject(),
                 titlePt != null ? titlePt : "(kept original)");
         return news.withTranslation(titlePt, summaryPt);
+    }
+
+    /** Whether a pt-BR field was already filled in by a previous run. */
+    private static boolean alreadyTranslated(String pt) {
+        return pt != null && !pt.isBlank();
     }
 
     /** Translates one snippet; returns null (so callers fall back) when unavailable. */
