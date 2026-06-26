@@ -23,6 +23,9 @@ import java.time.LocalDate;
  *   java -jar boteco-das-ias.jar illustrate # stage 4: generate images into magazine.json
  *   java -jar boteco-das-ias.jar render     # stage 5: render magazine.html from magazine.json
  * </pre>
+ * By default each stage reuses work already done for today's edition, so a
+ * retry only fills in what failed previously. Pass {@code --force} to redo
+ * everything (re-crawl, re-translate, re-collect opinions, regenerate images).
  * With no stage argument the app just starts and stays idle (so it can be run
  * as a service or have stages invoked programmatically).
  */
@@ -52,52 +55,56 @@ public class PipelineRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         var stages = args.getNonOptionArgs();
+        var force = args.containsOption("force");
+        if (force) {
+            log.info("--force enabled: redoing every stage from scratch");
+        }
         if (stages.contains("gather")) {
-            gather();
+            gather(force);
         }
         if (stages.contains("translate")) {
-            translate();
+            translate(force);
         }
         if (stages.contains("collect")) {
-            collect();
+            collect(force);
         }
         if (stages.contains("illustrate")) {
-            illustrate();
+            illustrate(force);
         }
         if (stages.contains("render")) {
             render();
         }
     }
 
-    private void gather() {
+    private void gather(boolean force) {
         log.info("Stage 1: gathering news from official feeds…");
         var today = LocalDate.now();
-        var existing = magazineStore.exists(today) ? magazineStore.load(today) : null;
+        var existing = !force && magazineStore.exists(today) ? magazineStore.load(today) : null;
         var magazine = newsGatherer.gather(existing);
         var jsonPath = magazineStore.save(magazine);
         log.info("Gathered {} news item(s) into {}", magazine.news().size(), jsonPath);
     }
 
-    private void translate() {
+    private void translate(boolean force) {
         log.info("Stage 2: translating news to Brazilian Portuguese…");
         var magazine = magazineStore.load(LocalDate.now());
-        var translated = newsTranslator.translate(magazine);
+        var translated = newsTranslator.translate(magazine, force);
         var jsonPath = magazineStore.save(translated);
         log.info("Translated {} news item(s) into {}", translated.news().size(), jsonPath);
     }
 
-    private void collect() {
+    private void collect(boolean force) {
         log.info("Stage 3: collecting opinions from the reviewers…");
         var magazine = magazineStore.load(LocalDate.now());
-        var reviewed = opinionCollector.collect(magazine);
+        var reviewed = opinionCollector.collect(magazine, force);
         var jsonPath = magazineStore.save(reviewed);
         log.info("Collected opinions into {}", jsonPath);
     }
 
-    private void illustrate() {
+    private void illustrate(boolean force) {
         log.info("Stage 4: generating anime-style images…");
         var magazine = magazineStore.load(LocalDate.now());
-        var illustrated = imageGenerator.illustrate(magazine);
+        var illustrated = imageGenerator.illustrate(magazine, force);
         var jsonPath = magazineStore.save(illustrated);
         log.info("Generated images for {} news item(s) into {}", illustrated.news().size(), jsonPath);
     }

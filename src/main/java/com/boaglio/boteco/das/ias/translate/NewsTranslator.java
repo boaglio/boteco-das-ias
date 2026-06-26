@@ -38,22 +38,33 @@ public class NewsTranslator {
 
     /** Returns a copy of the magazine with pt-BR headline and summary attached to each item. */
     public Magazine translate(Magazine magazine) {
+        return translate(magazine, false);
+    }
+
+    /**
+     * Returns a copy of the magazine with pt-BR headline and summary attached to
+     * each item. When {@code force} is false, existing translations are reused;
+     * when true, every field is translated again.
+     */
+    public Magazine translate(Magazine magazine, boolean force) {
         var translated = new ArrayList<News>();
         for (var news : magazine.news()) {
-            translated.add(translate(news));
+            translated.add(translate(news, force));
         }
         return new Magazine(magazine.title(), magazine.releaseDate(), translated);
     }
 
-    private News translate(News news) {
+    private News translate(News news, boolean force) {
         // Reuse translations from a previous run; only re-translate missing fields,
         // so a retry skips work already done.
-        if (alreadyTranslated(news.titlePt()) && alreadyTranslated(news.summaryPt())) {
+        if (!force && alreadyTranslated(news.titlePt()) && alreadyTranslated(news.summaryPt())) {
             log.info("{}: translation already exists, skipping", news.subject());
             return news;
         }
-        var titlePt = alreadyTranslated(news.titlePt()) ? news.titlePt() : translateText(news.title());
-        var summaryPt = alreadyTranslated(news.summaryPt()) ? news.summaryPt() : translateText(news.summary());
+        var titlePt = !force && alreadyTranslated(news.titlePt())
+                ? news.titlePt() : translateText(news.title());
+        var summaryPt = !force && alreadyTranslated(news.summaryPt())
+                ? news.summaryPt() : translateText(news.summary());
         log.info("{}: translated headline -> {}", news.subject(),
                 titlePt != null ? titlePt : "(kept original)");
         return news.withTranslation(titlePt, summaryPt);

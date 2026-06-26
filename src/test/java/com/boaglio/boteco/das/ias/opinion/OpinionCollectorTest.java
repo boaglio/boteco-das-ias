@@ -70,6 +70,22 @@ class OpinionCollectorTest {
     }
 
     @Test
+    void forceReplacesExistingOpinions() {
+        News news = new News(Subject.JAVA, "JEP news", "https://x", "inside.java",
+                LocalDate.of(2026, 6, 18), "summary",
+                List.of(new Opinion(Reviewer.HUMAN, "old take")), null, null, null);
+        Magazine magazine = new Magazine("title", LocalDate.of(2026, 6, 20), List.of(news));
+
+        List<OpinionEngine> engines = List.of(
+                new FakeEngine(Reviewer.HUMAN, "fresh take", false));
+
+        Magazine result = new OpinionCollector(engines).collect(magazine, true);
+
+        assertThat(result.news().get(0).opinions()).extracting(Opinion::text)
+                .containsExactly("fresh take");
+    }
+
+    @Test
     void skipsFailingEngineButKeepsTheRest() {
         List<OpinionEngine> engines = List.of(
                 new FakeEngine(Reviewer.HUMAN, "my take", false),

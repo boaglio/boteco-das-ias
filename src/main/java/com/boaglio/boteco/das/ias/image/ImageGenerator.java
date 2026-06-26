@@ -38,6 +38,15 @@ public class ImageGenerator {
 
     /** Returns a copy of the magazine with an image path attached to each news item. */
     public Magazine illustrate(Magazine magazine) {
+        return illustrate(magazine, false);
+    }
+
+    /**
+     * Returns a copy of the magazine with an image path attached to each news
+     * item. When {@code force} is false, items whose image already exists are
+     * skipped; when true, every image is regenerated.
+     */
+    public Magazine illustrate(Magazine magazine, boolean force) {
         var imagesDir = store.releaseDir(magazine.releaseDate()).resolve(IMAGES_SUBDIR);
         try {
             Files.createDirectories(imagesDir);
@@ -46,15 +55,15 @@ public class ImageGenerator {
         }
         var illustrated = new ArrayList<News>();
         for (var news : magazine.news()) {
-            illustrated.add(illustrate(news, imagesDir));
+            illustrated.add(illustrate(news, imagesDir, force));
         }
         return new Magazine(magazine.title(), magazine.releaseDate(), illustrated);
     }
 
-    private News illustrate(News news, Path imagesDir) {
+    private News illustrate(News news, Path imagesDir, boolean force) {
         var filename = news.subject().name().toLowerCase(Locale.ROOT) + ".png";
         var relativePath = IMAGES_SUBDIR + "/" + filename;
-        if (Files.exists(imagesDir.resolve(filename))) {
+        if (!force && Files.exists(imagesDir.resolve(filename))) {
             log.info("{}: image {} already exists, skipping", news.subject(), relativePath);
             return news.withImagePath(relativePath);
         }

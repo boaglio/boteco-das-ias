@@ -57,6 +57,22 @@ class NewsTranslatorTest {
     }
 
     @Test
+    void forceRetranslatesEvenWhenAlreadyTranslated() {
+        var model = new CountingChatModel();
+        var translator = new NewsTranslator(model, properties());
+        var news = new News(Subject.JAVA, "JEP news", "https://x", "inside.java",
+                LocalDate.of(2026, 6, 18), "summary", List.of(), null,
+                "título pt", "resumo pt");
+
+        var result = translator.translate(magazineWith(news), true);
+
+        // Both fields re-translated despite already being present.
+        assertThat(model.calls).hasValue(2);
+        assertThat(result.news().get(0).titlePt()).isEqualTo("traduzido");
+        assertThat(result.news().get(0).summaryPt()).isEqualTo("traduzido");
+    }
+
+    @Test
     void translatesOnlyTheMissingField() {
         var model = new CountingChatModel();
         var translator = new NewsTranslator(model, properties());
