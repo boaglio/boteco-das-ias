@@ -45,6 +45,15 @@ public class OpinionCollector {
 
     /** Returns a copy of the magazine with opinions attached to every news item. */
     public Magazine collect(Magazine magazine) {
+        return collect(magazine, false);
+    }
+
+    /**
+     * Returns a copy of the magazine with opinions attached to every news item.
+     * When {@code force} is false, a reviewer's existing opinion is reused; when
+     * true, every reviewer is asked again.
+     */
+    public Magazine collect(Magazine magazine, boolean force) {
         var news = magazine.news();
         // One ordered opinion list per item; engines append in conversation order.
         var opinionsByItem = new ArrayList<List<Opinion>>();
@@ -56,7 +65,16 @@ public class OpinionCollector {
         // every item before we move on to the next reviewer.
         for (var engine : engines) {
             for (var i = 0; i < news.size(); i++) {
-                opine(engine, news.get(i)).ifPresent(opinionsByItem.get(i)::add);
+                var item = news.get(i);
+                var existing = force ? Optional.<Opinion>empty()
+                        : existingOpinion(item, engine.reviewer());
+                if (existing.isPresent()) {
+                    log.info("{}: opinion for \"{}\" already exists, skipping",
+                            engine.reviewer(), item.title());
+                    opinionsByItem.get(i).add(existing.get());
+                } else {
+                    opine(engine, item).ifPresent(opinionsByItem.get(i)::add);
+                }
             }
         }
 
@@ -65,6 +83,14 @@ public class OpinionCollector {
             withOpinions.add(news.get(i).withOpinions(opinionsByItem.get(i)));
         }
         return new Magazine(magazine.title(), magazine.releaseDate(), withOpinions);
+    }
+
+    /** An already-collected, non-blank opinion from the reviewer, if any. */
+    private static Optional<Opinion> existingOpinion(News news, Reviewer reviewer) {
+        return news.opinions().stream()
+                .filter(o -> o.reviewer() == reviewer)
+                .filter(o -> o.text() != null && !o.text().isBlank())
+                .findFirst();
     }
 
     private Optional<Opinion> opine(OpinionEngine engine, News news) {
