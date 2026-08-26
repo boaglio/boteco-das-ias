@@ -33,7 +33,7 @@ class NewsTranslatorTest {
     private static BotecoProperties properties() {
         var ollama = new BotecoProperties.Reviewers.Ollama("phi", "llama");
         var reviewers = new BotecoProperties.Reviewers(null, ollama);
-        return new BotecoProperties("title", 7, null, reviewers, null, "releases",
+        return new BotecoProperties("title", 7, null, reviewers, null, null, "releases",
                 null, null, null);
     }
 

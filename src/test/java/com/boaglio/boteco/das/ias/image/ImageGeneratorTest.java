@@ -5,7 +5,7 @@ import com.boaglio.boteco.das.ias.model.Magazine;
 import com.boaglio.boteco.das.ias.model.News;
 import com.boaglio.boteco.das.ias.model.Subject;
 import com.boaglio.boteco.das.ias.storage.MagazineStore;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -16,12 +16,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ImageGeneratorTest {
 
     private static final LocalDate RELEASE = LocalDate.of(2026, 6, 20);
 
-    private record FakeEngine(byte[] png, boolean fail) implements ImageEngine {
+    private record FakeEngine(byte[] png, boolean fail, boolean unavailable) implements ImageEngine {
         @Override
         public byte[] generate(String scenePrompt) throws Exception {
             if (fail) {
@@ -29,11 +30,18 @@ class ImageGeneratorTest {
             }
             return png;
         }
+
+        @Override
+        public void checkAvailable() {
+            if (unavailable) {
+                throw new IllegalStateException("ComfyUI is not reachable");
+            }
+        }
     }
 
     private MagazineStore storeIn(Path releasesDir) {
         BotecoProperties properties = new BotecoProperties(
-                null, 0, null, null, null, releasesDir.toString(), null, null, null);
+                null, 0, null, null, null, null, releasesDir.toString(), null, null, null);
         return new MagazineStore(properties, new ObjectMapper());
     }
 
@@ -50,7 +58,7 @@ class ImageGeneratorTest {
         byte[] png = "fake-png".getBytes(StandardCharsets.UTF_8);
         MagazineStore store = storeIn(releasesDir);
 
-        Magazine result = new ImageGenerator(new FakeEngine(png, false), null, store)
+        Magazine result = new ImageGenerator(new FakeEngine(png, false, false), null, store)
                 .illustrate(twoItemMagazine());
 
         assertThat(result.news()).extracting(News::imagePath)
@@ -64,11 +72,38 @@ class ImageGeneratorTest {
     void leavesImagePathNullWhenRenderFails(@TempDir Path releasesDir) {
         MagazineStore store = storeIn(releasesDir);
 
-        Magazine result = new ImageGenerator(new FakeEngine(null, true), null, store)
+        Magazine result = new ImageGenerator(new FakeEngine(null, true, false), null, store)
                 .illustrate(twoItemMagazine());
 
         assertThat(result.news()).extracting(News::imagePath).containsOnlyNulls();
         assertThat(Files.exists(store.releaseDir(RELEASE).resolve("images").resolve("java.png")))
                 .isFalse();
+    }
+
+    @Test
+    void abortsUpFrontWhenTheEngineIsNotReachable(@TempDir Path releasesDir) {
+        MagazineStore store = storeIn(releasesDir);
+        ImageGenerator generator = new ImageGenerator(new FakeEngine(null, false, true), null, store);
+
+        assertThatThrownBy(() -> generator.illustrate(twoItemMagazine()))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("not reachable");
+    }
+
+    @Test
+    void skipsTheAvailabilityCheckWhenEveryImageIsAlreadyCached(@TempDir Path releasesDir) throws Exception {
+        MagazineStore store = storeIn(releasesDir);
+        Path imagesDir = store.releaseDir(RELEASE).resolve("images");
+        Files.createDirectories(imagesDir);
+        Files.write(imagesDir.resolve("java.png"), "cached".getBytes(StandardCharsets.UTF_8));
+        Files.write(imagesDir.resolve("technology.png"), "cached".getBytes(StandardCharsets.UTF_8));
+
+        // The fake engine would throw from checkAvailable() if it were called —
+        // proves it wasn't, since every image is already on disk and force=false.
+        Magazine result = new ImageGenerator(new FakeEngine(null, false, true), null, store)
+                .illustrate(twoItemMagazine());
+
+        assertThat(result.news()).extracting(News::imagePath)
+                .containsExactly("images/java.png", "images/technology.png");
     }
 }

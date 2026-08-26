@@ -15,4 +15,15 @@ public interface ImageEngine {
      * @throws Exception if the underlying server is unavailable or fails to render
      */
     byte[] generate(String scenePrompt) throws Exception;
+
+    /**
+     * Fails fast if the engine's backing service isn't reachable. Called once
+     * before a batch of {@link #generate} calls, so a service that's simply not
+     * running (e.g. {@code docker compose up} was never run) aborts the whole
+     * stage with one clear message instead of every item failing individually.
+     *
+     * @throws RuntimeException describing why the service can't be reached
+     */
+    default void checkAvailable() {
+    }
 }

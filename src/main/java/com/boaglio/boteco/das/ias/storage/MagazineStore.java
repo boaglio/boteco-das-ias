@@ -2,10 +2,11 @@ package com.boaglio.boteco.das.ias.storage;
 
 import com.boaglio.boteco.das.ias.config.BotecoProperties;
 import com.boaglio.boteco.das.ias.model.Magazine;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -48,6 +49,8 @@ public class MagazineStore {
             return jsonPath;
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to save magazine to " + jsonPath, e);
+        } catch (JacksonException e) {
+            throw new UncheckedIOException("Failed to save magazine to " + jsonPath, new IOException(e));
         }
     }
 
@@ -61,8 +64,8 @@ public class MagazineStore {
         Path jsonPath = releaseDir(releaseDate).resolve(JSON_FILE);
         try {
             return objectMapper.readValue(jsonPath.toFile(), Magazine.class);
-        } catch (IOException e) {
-            throw new UncheckedIOException("Failed to load magazine from " + jsonPath, e);
+        } catch (JacksonException e) {
+            throw new UncheckedIOException("Failed to load magazine from " + jsonPath, new IOException(e));
         }
     }
 }

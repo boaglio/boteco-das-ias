@@ -5,7 +5,7 @@
 #   1) Put a checkpoint in ./comfyui/models/checkpoints/
 #      (default app config expects v1-5-pruned-emaonly.safetensors)
 #   2) docker compose up          # foreground; logs stream here
-#   3) java -jar boteco-das-ias.jar illustrate   # in another shell
+#   3) scripts/boteco.sh illustrate              # in another shell
 #
 # Runs CPU-only by default so it works on any host. GPU notes at the bottom.
 services:

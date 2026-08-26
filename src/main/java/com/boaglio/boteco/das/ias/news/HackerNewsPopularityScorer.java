@@ -1,11 +1,11 @@
 package com.boaglio.boteco.das.ias.news;
 
 import com.boaglio.boteco.das.ias.model.News;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
-import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
+import org.springframework.boot.http.client.HttpClientSettings;
+import tools.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -31,7 +31,7 @@ public class HackerNewsPopularityScorer implements PopularitySource {
     private final RestClient http = RestClient.builder()
             .baseUrl("https://hn.algolia.com/api/v1")
             .requestFactory(ClientHttpRequestFactoryBuilder.jdk().build(
-                    ClientHttpRequestFactorySettings.defaults()
+                    HttpClientSettings.defaults()
                             .withConnectTimeout(Duration.ofSeconds(5))
                             .withReadTimeout(Duration.ofSeconds(8))))
             .build();

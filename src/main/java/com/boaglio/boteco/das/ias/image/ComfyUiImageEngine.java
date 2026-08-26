@@ -1,15 +1,18 @@
 package com.boaglio.boteco.das.ias.image;
 
 import com.boaglio.boteco.das.ias.config.BotecoProperties;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
+import org.springframework.boot.http.client.HttpClientSettings;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -36,10 +39,13 @@ public class ComfyUiImageEngine implements ImageEngine {
     private static final String WORKFLOW_RESOURCE = "comfyui-workflow.json";
     private static final Duration POLL_INTERVAL = Duration.ofSeconds(2);
     private static final Duration DEFAULT_RENDER_TIMEOUT = Duration.ofMinutes(20);
+    /** Short and independent of the render timeout — a reachability check must fail fast. */
+    private static final Duration CHECK_TIMEOUT = Duration.ofSeconds(3);
 
     private final BotecoProperties.ComfyUi config;
     private final ObjectMapper objectMapper;
     private final RestClient restClient;
+    private final RestClient probeClient;
     private final JsonNode workflowTemplate;
     private final Duration renderTimeout;
 
@@ -47,8 +53,31 @@ public class ComfyUiImageEngine implements ImageEngine {
         this.config = properties.comfyui();
         this.objectMapper = objectMapper;
         this.restClient = RestClient.builder().baseUrl(config.baseUrl()).build();
+        this.probeClient = RestClient.builder().baseUrl(config.baseUrl())
+                .requestFactory(ClientHttpRequestFactoryBuilder.jdk().build(
+                        HttpClientSettings.defaults()
+                                .withConnectTimeout(CHECK_TIMEOUT)
+                                .withReadTimeout(CHECK_TIMEOUT)))
+                .build();
         this.workflowTemplate = loadTemplate(objectMapper);
         this.renderTimeout = config.renderTimeout() == null ? DEFAULT_RENDER_TIMEOUT : config.renderTimeout();
+    }
+
+    /**
+     * Pings ComfyUI's {@code /system_stats} endpoint with a short timeout of its
+     * own (independent of the render-poll timeout) so a server that's down is
+     * reported in seconds, not after the first render's full timeout elapses.
+     */
+    @Override
+    public void checkAvailable() {
+        try {
+            probeClient.get().uri("/system_stats").retrieve().toBodilessEntity();
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                    "ComfyUI is not reachable at " + config.baseUrl()
+                            + " — start it with 'docker compose up' before running 'illustrate'. Cause: "
+                            + e.getMessage(), e);
+        }
     }
 
     private static JsonNode loadTemplate(ObjectMapper mapper) {
@@ -56,12 +85,14 @@ public class ComfyUiImageEngine implements ImageEngine {
             return mapper.readTree(in);
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to load ComfyUI workflow template", e);
+        } catch (JacksonException e) {
+            throw new UncheckedIOException("Failed to load ComfyUI workflow template", new IOException(e));
         }
     }
 
     @Override
     public byte[] generate(String scenePrompt) throws InterruptedException {
-        ObjectNode graph = workflowTemplate.deepCopy();
+        ObjectNode graph = (ObjectNode) workflowTemplate.deepCopy();
         applyInputs(graph, scenePrompt);
         var promptId = queue(graph);
         var image = awaitImage(promptId);

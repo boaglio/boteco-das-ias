@@ -15,6 +15,7 @@ public record BotecoProperties(
         int newsWindowDays,
         Feeds feeds,
         Reviewers reviewers,
+        Reddit reddit,
         ComfyUi comfyui,
         String releasesDir,
         String logoFile,
@@ -24,6 +25,7 @@ public record BotecoProperties(
 
     public BotecoProperties {
         footerLinks = footerLinks == null ? List.of() : List.copyOf(footerLinks);
+        reddit = reddit == null ? new Reddit(null, null) : reddit;
     }
 
     /** The human reviewer's display name and avatar image. */
@@ -59,6 +61,20 @@ public record BotecoProperties(
         }
 
         public record Ollama(String phiModel, String llamaModel) {
+        }
+    }
+
+    /**
+     * Free Reddit "script" app credentials (register at
+     * https://www.reddit.com/prefs/apps), used for the client_credentials OAuth
+     * grant. Reddit's public JSON endpoints 403 unauthenticated requests, so
+     * {@code RedditPopularityScorer} skips Reddit entirely (scores 0, no network
+     * call) when either field is blank.
+     */
+    public record Reddit(String clientId, String clientSecret) {
+        public boolean configured() {
+            return clientId != null && !clientId.isBlank()
+                    && clientSecret != null && !clientSecret.isBlank();
         }
     }
 

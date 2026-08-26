@@ -34,7 +34,7 @@ class NewsGathererTest {
     private static BotecoProperties properties() {
         var feeds = new BotecoProperties.Feeds(
                 List.of("j"), List.of("sb"), List.of("sa"), List.of("t"));
-        return new BotecoProperties("Boteco {date}", 7, feeds, null, null, "releases",
+        return new BotecoProperties("Boteco {date}", 7, feeds, null, null, null, "releases",
                 null, null, null);
     }
 

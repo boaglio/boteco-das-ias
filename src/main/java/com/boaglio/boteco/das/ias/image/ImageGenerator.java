@@ -17,8 +17,11 @@ import java.util.Locale;
 /**
  * Stage 3 of the build process: render an anime-style image for each news item
  * and attach its release-relative path. Images are written to an
- * {@code images/} subdirectory of the release. A failing render is logged and
- * skipped so the rest of the edition can still be produced.
+ * {@code images/} subdirectory of the release. A single item's render failing
+ * is logged and skipped so the rest of the edition can still be produced —
+ * but if the engine's backing service isn't reachable at all, {@link #illustrate}
+ * aborts once up front (see {@link ImageEngine#checkAvailable()}) instead of
+ * letting every item fail the same way one by one.
  */
 @Service
 public class ImageGenerator {
@@ -53,6 +56,14 @@ public class ImageGenerator {
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to create images directory " + imagesDir, e);
         }
+        // Only probe the engine when there's actually something to render — a
+        // fully-cached re-run (everything already illustrated) shouldn't fail
+        // just because the image service happens to be down right now.
+        var needsGeneration = force || magazine.news().stream()
+                .anyMatch(news -> !Files.exists(imagesDir.resolve(filenameFor(news))));
+        if (needsGeneration) {
+            engine.checkAvailable();
+        }
         var illustrated = new ArrayList<News>();
         for (var news : magazine.news()) {
             illustrated.add(illustrate(news, imagesDir, force));
@@ -60,8 +71,12 @@ public class ImageGenerator {
         return new Magazine(magazine.title(), magazine.releaseDate(), illustrated);
     }
 
+    private static String filenameFor(News news) {
+        return news.subject().name().toLowerCase(Locale.ROOT) + ".png";
+    }
+
     private News illustrate(News news, Path imagesDir, boolean force) {
-        var filename = news.subject().name().toLowerCase(Locale.ROOT) + ".png";
+        var filename = filenameFor(news);
         var relativePath = IMAGES_SUBDIR + "/" + filename;
         if (!force && Files.exists(imagesDir.resolve(filename))) {
             log.info("{}: image {} already exists, skipping", news.subject(), relativePath);

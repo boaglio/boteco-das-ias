@@ -14,7 +14,7 @@ All text but technical terms must be translated to Brazilian Portuguese.
 
 ## Build Process 
 
-This info magazine will dig in web for last week news related to these subjects: Java, Spring Boot, Spring AI, Technology, choose the most popular news of each subject and them separated it in a JSON file. 
+This info magazine will dig in web for last week news related to these subjects: Java, Spring Boot, Spring AI, Technology, rank the top 3 most popular news of each subject and prompt for my choice among them, then separate it in a JSON file. 
 
 Do not repeat the same news for different subjects.
 

@@ -9,8 +9,8 @@ import java.util.Optional;
 
 /**
  * Picks the most recently published candidate, breaking ties by title for
- * determinism. Used as the recency fallback by {@link PopularNewsSelector}
- * (which is the active {@link NewsSelector} bean).
+ * determinism. A simple, non-interactive {@link NewsSelector}; not wired as
+ * a Spring bean — {@link PopularNewsSelector} is the active one.
  */
 public class MostRecentNewsSelector implements NewsSelector {
 

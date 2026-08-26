@@ -8,7 +8,7 @@ import com.boaglio.boteco.das.ias.model.Opinion;
 import com.boaglio.boteco.das.ias.model.Reviewer;
 import com.boaglio.boteco.das.ias.model.Subject;
 import com.boaglio.boteco.das.ias.storage.MagazineStore;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -26,7 +26,7 @@ class MagazineRendererTest {
             new FooterLink("GitHub", "https://github.com/boaglio", "github"));
 
     private BotecoProperties properties(String releasesDir) {
-        return new BotecoProperties(null, 0, null, null, null, releasesDir, null, null, FOOTER);
+        return new BotecoProperties(null, 0, null, null, null, null, releasesDir, null, null, FOOTER);
     }
 
     private MagazineRenderer rendererIn(Path releasesDir) {

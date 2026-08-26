@@ -6,7 +6,7 @@ spring:
     web-application-type: none
   # Local models run on CPU here, so give Ollama plenty of time to respond.
   http:
-    client:
+    clients:
       connect-timeout: 30s
       read-timeout: 600s
   ai:
@@ -47,6 +47,14 @@ boteco:
     ollama:
       phi-model: phi4-mini        # Microsoft Phi-4 mini (~2.5 GB, fits the GPU)
       llama-model: llama3.2       # Meta Llama 3.2 (~2 GB); also used for translation
+
+  # Free Reddit "script" app credentials, for the Reddit popularity signal.
+  # Register one (free, ~2 min) at https://www.reddit.com/prefs/apps, then set
+  # the REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET env vars — never commit real
+  # values here. Left blank, Reddit scoring is skipped (HN signal still works).
+  reddit:
+    client-id: ${REDDIT_CLIENT_ID:}
+    client-secret: ${REDDIT_CLIENT_SECRET:}
 
   # Local ComfyUI for anime-style image generation.
   comfyui:

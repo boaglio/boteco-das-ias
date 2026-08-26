@@ -12,25 +12,40 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Default {@link NewsSelector}: picks the <em>most popular</em> candidate for a
- * subject, using a {@link PopularityScorer} (Hacker News engagement). Only items
- * that carry a real summary are considered, and only the most recent few are
- * scored to bound the external lookups. When nothing has a popularity signal it
- * falls back to the most recent item.
+ * Default {@link NewsSelector}: ranks candidates for a subject by <em>popularity</em>
+ * using a {@link PopularityScorer} (Hacker News engagement), then hands the top few
+ * to a {@link NewsChooser} — by default the console prompt — so the operator picks
+ * which one to feature. Only items that carry a real summary are considered. Every
+ * candidate gathered for the window is scored (up to {@link #MAX_TO_SCORE}, a safety
+ * cap against a runaway feed rather than a normal limit) — a high-volume subject feed
+ * must not crowd a genuinely more popular, slightly older item out of ranking just by
+ * publishing more recently. Candidates are always offered to the chooser, even when
+ * none of them has a popularity signal yet (common for news published within the last
+ * day or two) — ties then fall back to most-recent-first, and a blank answer from the
+ * operator keeps that top choice.
  */
 @Component
 public class PopularNewsSelector implements NewsSelector {
 
     private static final Logger log = LoggerFactory.getLogger(PopularNewsSelector.class);
 
-    /** Cap on how many (most-recent) candidates we look up popularity for. */
-    private static final int MAX_TO_SCORE = 20;
+    /**
+     * Safety cap on how many candidates we look up popularity for, most-recent
+     * first. Sized well above any observed per-subject weekly volume — it exists
+     * only to bound external lookups against a runaway/misbehaving feed, not to
+     * routinely trim the pool (that would silently re-introduce a recency bias).
+     */
+    private static final int MAX_TO_SCORE = 200;
+
+    /** How many top candidates the operator gets to choose among. */
+    private static final int TOP_N = 3;
 
     private final PopularityScorer scorer;
-    private final MostRecentNewsSelector byRecency = new MostRecentNewsSelector();
+    private final NewsChooser chooser;
 
-    public PopularNewsSelector(PopularityScorer scorer) {
+    public PopularNewsSelector(PopularityScorer scorer, NewsChooser chooser) {
         this.scorer = scorer;
+        this.chooser = chooser;
     }
 
     @Override
@@ -39,25 +54,28 @@ public class PopularNewsSelector implements NewsSelector {
                 .filter(news -> news.summary() != null && !news.summary().isBlank())
                 .toList();
         var pool = withSummary.isEmpty() ? candidates : withSummary;
+        if (pool.isEmpty()) {
+            return Optional.empty();
+        }
 
         var toScore = pool.stream()
                 .sorted(Comparator.comparing(News::publishedDate).reversed())
                 .limit(MAX_TO_SCORE)
                 .toList();
 
-        var best = toScore.stream()
+        var ranked = toScore.stream()
                 .map(news -> Map.entry(news, scorer.score(news)))
-                .max(Comparator.<Map.Entry<News, Integer>>comparingInt(Map.Entry::getValue)
+                .sorted(Comparator.<Map.Entry<News, Integer>>comparingInt(Map.Entry::getValue)
                         .thenComparing(e -> e.getKey().publishedDate())
-                        .thenComparing(e -> e.getKey().title(), Comparator.reverseOrder()));
+                        .thenComparing(e -> e.getKey().title(), Comparator.reverseOrder())
+                        .reversed())
+                .toList();
 
-        if (best.isPresent() && best.get().getValue() > 0) {
-            var pick = best.get();
-            log.info("{}: most popular \"{}\" ({} popularity points)",
-                    subject, pick.getKey().title(), pick.getValue());
-            return Optional.of(pick.getKey());
-        }
-        // No popularity signal anywhere — fall back to the most recent item.
-        return byRecency.selectBest(subject, pool);
+        var topN = ranked.stream().limit(TOP_N).toList();
+        log.info("{}: top {} candidate(s) by popularity: {}", subject, topN.size(), topN.stream()
+                .map(e -> "\"" + e.getKey().title() + "\" (" + e.getValue() + ")")
+                .toList());
+        var chosen = chooser.choose(subject, topN.stream().map(Map.Entry::getKey).toList());
+        return Optional.of(chosen);
     }
 }

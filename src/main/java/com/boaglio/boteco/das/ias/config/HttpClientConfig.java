@@ -1,8 +1,8 @@
 package com.boaglio.boteco.das.ias.config;
 
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
-import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
-import org.springframework.boot.web.client.RestClientCustomizer;
+import org.springframework.boot.http.client.HttpClientSettings;
+import org.springframework.boot.restclient.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +20,7 @@ class HttpClientConfig {
 
     @Bean
     RestClientCustomizer ollamaReadTimeoutCustomizer() {
-        var settings = ClientHttpRequestFactorySettings.defaults()
+        var settings = HttpClientSettings.defaults()
                 .withConnectTimeout(Duration.ofSeconds(20))
                 .withReadTimeout(Duration.ofMinutes(5));
         return builder -> builder.requestFactory(
