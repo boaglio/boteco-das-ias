@@ -32,7 +32,39 @@ scripts/boteco.sh publish    # atualiza a página inicial e a lista de edições
 scripts/boteco.sh weekly     # all → opine → publish
 ```
 
-Estágios individuais: `scripts/boteco.sh gather|translate|collect|illustrate|render`.
+### Notícia extra (manual)
+
+Além das notícias coletadas, você pode incluir notícias suas para as IAs comentarem
+(aparecem na edição com o selo **EXTRA**). O `all`/`weekly` já pergunta logo após o
+`gather`; para incluir depois, rode:
+
+```bash
+scripts/boteco.sh add        # título, link (opcional), resumo, fonte e idioma
+scripts/boteco.sh all        # traduz (se em inglês), coleta opiniões, ilustra e renderiza
+```
+
+Deixe o título em branco para terminar. Notícias extras sobrevivem a um `gather --force`.
+
+### Listar as edições
+
+`scripts/boteco.sh list` mostra todas as edições (mais recente primeiro) e o andamento de
+cada uma: notícias (e extras), suas opiniões, imagens, HTML, imagens do LinkedIn e se já
+foi publicada no README.
+
+### Mudar a data de uma edição
+
+Os estágios sempre trabalham na edição de hoje. Se você coletou as notícias à noite
+e vai opinar no dia seguinte, mova a edição antes:
+
+```bash
+scripts/boteco.sh move                         # ontem → hoje
+scripts/boteco.sh move 2026-10-01 2026-10-03   # datas explícitas
+```
+
+Renomeia `releases/<data>`, corrige a data no `magazine.json` e oferece re-gerar o HTML
+e as imagens do LinkedIn.
+
+Estágios individuais: `scripts/boteco.sh gather|add|translate|collect|illustrate|render`.
 Flags extras via env, ex.: `BOTECO_ARGS="--boteco.comfyui.steps=14" scripts/boteco.sh all`.
 `scripts/boteco.sh help` lista tudo.
 

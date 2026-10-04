@@ -67,7 +67,26 @@ class NewsGathererTest {
 
         var result = gatherer.gather();
 
-        assertThat(reader.crawled).containsExactlyInAnyOrder(Subject.values());
+        assertThat(reader.crawled).containsExactlyInAnyOrderElementsOf(Subject.feedSubjects());
         assertThat(result.news()).hasSize(4);
+    }
+
+    @Test
+    void keepsCustomNewsAtTheEndEvenWhenForced() {
+        var reader = new RecordingFeedReader();
+        var gatherer = new NewsGatherer(properties(), reader, FIRST);
+        var custom = new News(Subject.CUSTOM, "minha notícia", "https://custom",
+                "blog", LocalDate.of(2026, 6, 19), "resumo", List.of(), null, null, null);
+        var existingJava = new News(Subject.JAVA, "reused java", "https://reused",
+                "inside.java", LocalDate.of(2026, 6, 17), "summary", List.of(), null, null, null);
+        var existing = new Magazine("title", LocalDate.now(), List.of(existingJava, custom));
+
+        var result = gatherer.gather(existing, true);
+
+        // Forced: every feed subject is crawled again (CUSTOM never is)...
+        assertThat(reader.crawled).containsExactlyInAnyOrderElementsOf(Subject.feedSubjects());
+        // ...but the hand-typed item survives, after the gathered ones.
+        assertThat(result.news()).hasSize(5).last().isEqualTo(custom);
+        assertThat(result.news()).extracting(News::title).doesNotContain("reused java");
     }
 }

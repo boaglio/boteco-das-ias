@@ -8,13 +8,17 @@
 # Commands:
 #   build                 compile the jar (mvn package, runs tests)
 #   gather                stage 1 — pick the best news per subject
+#   add                   type in your own extra news (today's edition) for the AIs to comment
 #   translate             stage 2 — translate to Brazilian Portuguese
 #   collect               stage 3 — collect the AI opinions
 #   illustrate            stage 4 — generate the anime images
 #   render                stage 5 — write magazine.html + LinkedIn cards
-#   all                   run stages 1..5 in order
+#   all                   run stages 1..5 in order (asks for extra news after gather)
 #   opine [date]          type your own opinion (offers to re-render + images)
 #   images [date]         generate the LinkedIn images for an edition
+#   list                  list every edition and how far along it is
+#   move [from] [to]      move an edition to another date (default: yesterday → today),
+#                         e.g. gathered at night, opine the next day
 #   publish               refresh the Pages landing page + README list
 #   weekly                all → opine → publish  (the full edition flow)
 #   help                  show this help
@@ -40,12 +44,17 @@ cleanup() {
 trap cleanup EXIT
 register_tmp() { TMP_FILES+=("$1"); }
 
-# Path to the runnable jar, building it first if needed.
+# Path to the runnable jar, (re)building it first when it's missing or older
+# than any source file — otherwise a stale jar silently runs old code.
 jar() {
     local j
     j=$(ls target/boteco-das-ias-*.jar 2>/dev/null | head -1 || true)
+    if [ -n "$j" ] && [ -n "$(find src pom.xml -newer "$j" -type f -print -quit)" ]; then
+        echo "Sources changed since the last build — rebuilding the jar…" >&2
+        j=""
+    fi
     if [ -z "$j" ]; then
-        echo "No jar found — building…" >&2
+        echo "No up-to-date jar found — building…" >&2
         mvn -q package -DskipTests >&2
         j=$(ls target/boteco-das-ias-*.jar | head -1)
     fi
@@ -58,14 +67,14 @@ stages() {
     java -jar "$(jar)" ${BOTECO_ARGS:-} "$@" </dev/null
 }
 
-# Run the 'gather' stage specifically. Unlike the other stages, gather prompts
-# you interactively to pick one of the top-3 candidates per subject — so it
-# needs a real terminal on stdin instead of /dev/null, or that prompt would
-# hit EOF instantly and silently default to the top-ranked candidate every
-# time, with no chance to actually choose.
-stages_gather() {
-    : < /dev/tty 2>/dev/null || { echo "'gather' needs an interactive terminal (to prompt for your top-3 pick) — run it directly in a shell, not via cron/pipe/subagent." >&2; exit 1; }
-    java -jar "$(jar)" ${BOTECO_ARGS:-} gather "$@" </dev/tty
+# Run the interactive stages ('gather', 'add'). Unlike the others, they prompt
+# you — gather to pick one of the top-3 candidates per subject, add to type in
+# extra news — so they need a real terminal on stdin instead of /dev/null, or
+# the prompt would hit EOF instantly and silently fall back to its default
+# (top-ranked candidate / no extra news), with no chance to actually answer.
+stages_interactive() {
+    : < /dev/tty 2>/dev/null || { echo "'$1' needs an interactive terminal (it prompts for your input) — run it directly in a shell, not via cron/pipe/subagent." >&2; exit 1; }
+    java -jar "$(jar)" ${BOTECO_ARGS:-} "$@" </dev/tty
 }
 
 usage() { sed -n '2,/^set -euo/p' "$0" | sed 's/^# \{0,1\}//; /^set -euo/d'; }
@@ -94,12 +103,12 @@ opine() {
     for i in $(seq 0 $((count - 1))); do
         subject=$(jq -r ".news[$i].subject" "$json")
         title=$(jq -r ".news[$i].titlePt // .news[$i].title" "$json")
-        url=$(jq -r ".news[$i].url" "$json")
+        url=$(jq -r ".news[$i].url // \"\"" "$json")
         summary=$(jq -r ".news[$i].summaryPt // .news[$i].summary // \"\"" "$json")
 
         echo "────────────────────────────────────────────────────────"
         echo "[$subject] $title"
-        echo "$url"
+        [ -n "$url" ] && echo "$url"
         [ -n "$summary" ] && echo "$summary" | fold -s -w 72
         printf "Sua opinião> "
         IFS= read -r opinion </dev/tty || opinion=""
@@ -132,6 +141,104 @@ opine() {
         *)
             echo "Ok. Quando quiser:  scripts/boteco.sh render"
             echo "                    scripts/boteco.sh images $date"
+            ;;
+    esac
+}
+
+# ---------------------------------------------------------------------------
+# list — every edition under releases/, newest first, with its progress:
+# news count (extras included), your opinions, images, HTML, LinkedIn images
+# and whether 'publish' already put it in the README.
+# ---------------------------------------------------------------------------
+list() {
+    command -v jq >/dev/null || { echo "'list' needs 'jq' installed." >&2; exit 1; }
+    compgen -G "releases/*/magazine.json" >/dev/null \
+        || { echo "Nenhuma edição em releases/ ainda — rode 'scripts/boteco.sh gather'."; return; }
+    local today d dir stats news extra mine imgs html li pub mark
+    today=$(date +%F)
+    # Tab-separated rows aligned by 'column' (printf pads by bytes, which
+    # misaligns accented letters and ✓).
+    {
+    printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "EDIÇÃO" "NOTÍCIAS" "VOCÊ" "IMAGENS" "HTML" "LINKEDIN" "PUBLICADA"
+    for d in $(ls -1 releases 2>/dev/null | sort -r); do
+        dir="releases/$d"
+        [ -f "$dir/magazine.json" ] || continue
+        if ! stats=$(jq -r '[(.news | length),
+                             ([.news[] | select(.subject == "CUSTOM")] | length),
+                             ([.news[] | select(any(.opinions[]; .reviewer == "HUMAN"))] | length),
+                             ([.news[] | select(.imagePath != null)] | length)] | @tsv' \
+                         "$dir/magazine.json" 2>/dev/null); then
+            printf '%s\t%s\n' "$d" "(magazine.json ilegível)"
+            continue
+        fi
+        IFS=$'\t' read -r news extra mine imgs <<<"$stats"
+        [ "$extra" -gt 0 ] && news="$news (+$extra extra)" || news="$news"
+        html="–"; [ -f "$dir/magazine.html" ] && html="✓"
+        li="–"; compgen -G "$dir/linkedin/*.png" >/dev/null && li="✓"
+        pub="–"; grep -q "releases/$d/magazine.html" README.md 2>/dev/null && pub="✓"
+        mark=""; [ "$d" = "$today" ] && mark="  ← hoje"
+        printf '%s\t%s\t%s\t%s\t%s\t%s\t%s%s\n' "$d" "$news" "$mine/${news%% *}" "$imgs/${news%% *}" "$html" "$li" "$pub" "$mark"
+    done
+    } | column -t -s $'\t'
+}
+
+# ---------------------------------------------------------------------------
+# move — re-date an edition: rename releases/<from> to releases/<to> and fix
+# the date inside its magazine.json (releaseDate + title), so the stages —
+# which always work on today's edition — pick it up again. Defaults to
+# yesterday → today: the "ran the news at night, opine the next day" case.
+# ---------------------------------------------------------------------------
+move() {
+    local from="${1:-$(date -d yesterday +%F)}"
+    local to="${2:-$(date +%F)}"
+    local d
+    for d in "$from" "$to"; do
+        [[ "$d" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] && date -d "$d" >/dev/null 2>&1 \
+            || { echo "Invalid date '$d' — use YYYY-MM-DD." >&2; exit 1; }
+    done
+    [ "$from" != "$to" ] || { echo "Source and target dates are both $from — nothing to move." >&2; exit 1; }
+
+    local src="releases/$from" dst="releases/$to"
+    command -v jq >/dev/null || { echo "'move' needs 'jq' installed." >&2; exit 1; }
+    [ -f "$src/magazine.json" ] || { echo "No edition found at $src — nothing to move." >&2; exit 1; }
+    [ ! -e "$dst" ] || { echo "$dst already exists — refusing to overwrite it." >&2; exit 1; }
+
+    # Re-date the JSON *before* moving anything, so a broken file aborts the
+    # whole move instead of leaving the edition half-moved.
+    local redated
+    redated=$(mktemp)
+    register_tmp "$redated"
+    jq --arg f "$from" --arg t "$to" \
+        '.releaseDate = $t | if (.title | type) == "string" then .title |= gsub($f; $t) else . end' \
+        "$src/magazine.json" >"$redated" \
+        || { echo "Couldn't update $src/magazine.json — nothing was moved." >&2; exit 1; }
+
+    # Keep git history when the edition was already committed.
+    if git ls-files --error-unmatch "$src" >/dev/null 2>&1; then
+        git mv "$src" "$dst"
+    else
+        mv "$src" "$dst"
+    fi
+    cat "$redated" >"$dst/magazine.json"
+    echo "Moved edition $from → $to ($dst)"
+
+    # The HTML and LinkedIn cards still show the old date until re-rendered.
+    # The render stage only works on today's edition.
+    if [ "$to" != "$(date +%F)" ]; then
+        echo "Re-render it on $to with:  scripts/boteco.sh render && scripts/boteco.sh images $to"
+        return
+    fi
+    local answer
+    printf "Re-gerar o HTML e as imagens do LinkedIn com a nova data? [s/N] "
+    { IFS= read -r answer </dev/tty; } 2>/dev/null || answer=""
+    case "$answer" in
+        [sSyY]*)
+            stages render
+            images "$to"
+            ;;
+        *)
+            echo "Ok. Quando quiser:  scripts/boteco.sh render"
+            echo "                    scripts/boteco.sh images $to"
             ;;
     esac
 }
@@ -176,6 +283,8 @@ images() {
 
     local out="$dir/linkedin"
     mkdir -p "$out"
+    # Start clean, so a card that no longer exists doesn't keep its old image.
+    rm -f "$out"/card-*.png
 
     local card name png shot_err failures=0
     for card in "${cards[@]}"; do
@@ -332,17 +441,19 @@ cmd="${1:-help}"
 
 case "$cmd" in
     build)                                   mvn package ;;
-    gather)                                  stages_gather "$@" ;;
+    gather|add)                              stages_interactive "$cmd" "$@" ;;
     translate|collect|illustrate|render)     stages "$cmd" "$@" ;;
     all)
-        stages_gather
+        stages_interactive gather add
         stages translate collect illustrate render
         ;;
     opine)                                   opine "$@" ;;
     images)                                  images "$@" ;;
+    list|ls)                                 list ;;
+    move)                                    move "$@" ;;
     publish)                                 publish ;;
     weekly)
-        stages_gather
+        stages_interactive gather add
         stages translate collect illustrate render
         opine "$@"
         publish

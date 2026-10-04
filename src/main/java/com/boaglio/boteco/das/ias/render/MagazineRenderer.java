@@ -65,6 +65,13 @@ public class MagazineRenderer {
      * per-news LinkedIn images (rasterized by scripts/linkedin-images.sh).
      */
     private void writeCards(Magazine magazine, Path releaseDir) throws IOException {
+        // Drop cards from a previous render first, so an item removed since then
+        // doesn't leave a stale card behind (and a stale LinkedIn image).
+        try (var stale = Files.newDirectoryStream(releaseDir, "card-*.html")) {
+            for (var card : stale) {
+                Files.delete(card);
+            }
+        }
         var news = magazine.news();
         for (var i = 0; i < news.size(); i++) {
             var item = news.get(i);
@@ -198,13 +205,22 @@ public class MagazineRenderer {
         return """
                 <div class="news-text">
                 <span class="subject">%s</span>
-                <h2><a href="%s">%s</a></h2>
+                <h2>%s</h2>
                 %s<p class="summary">%s</p>
                 <p class="source">Fonte: %s</p>
                 </div>
                 """.formatted(
-                escape(news.subject().name().replace('_', ' ')), escape(news.url()), escape(headline),
-                original, escape(summary), escape(news.source()));
+                escape(news.subject().label()), renderHeadline(news.url(), headline),
+                // A custom item's summary may span several pasted lines; keep them.
+                original, escape(summary).replace("\n", "<br>"), escape(news.source()));
+    }
+
+    /** The headline linked to its article, or plain text for a custom item with no link. */
+    private static String renderHeadline(String url, String headline) {
+        if (url == null || url.isBlank()) {
+            return escape(headline);
+        }
+        return "<a href=\"%s\">%s</a>".formatted(escape(url), escape(headline));
     }
 
     private String renderFooterLinks() {

@@ -43,6 +43,6 @@ public class SceneDescriber {
                 Subject: %s
                 Headline: %s
                 Summary: %s
-                """.formatted(news.subject(), news.title(), news.summary());
+                """.formatted(news.subject().label(), news.title(), news.summary());
     }
 }

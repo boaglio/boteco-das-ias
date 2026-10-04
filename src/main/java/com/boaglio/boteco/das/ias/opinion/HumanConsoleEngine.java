@@ -34,7 +34,9 @@ public class HumanConsoleEngine implements OpinionEngine {
     @Override
     public String opine(News news) throws IOException {
         System.out.printf("%n=== [%s] %s ===%n", news.subject(), news.title());
-        System.out.println(news.url());
+        if (news.url() != null) {
+            System.out.println(news.url());
+        }
         System.out.println(news.summary());
         System.out.print("Your opinion> ");
         System.out.flush();

@@ -1,6 +1,7 @@
 package com.boaglio.boteco.das.ias.image;
 
 import com.boaglio.boteco.das.ias.model.News;
+import com.boaglio.boteco.das.ias.model.Subject;
 
 import java.util.Locale;
 
@@ -16,7 +17,9 @@ public final class ImagePrompts {
      * article text is fed to the image model (which would render it as text).
      */
     public static String forNews(News news) {
-        var subject = news.subject().name().toLowerCase(Locale.ROOT).replace('_', ' ');
+        // A custom item has no technical theme of its own, so fall back to plain "technology".
+        var subject = news.subject() == Subject.CUSTOM ? "technology"
+                : news.subject().label().toLowerCase(Locale.ROOT);
         return "a symbolic, wordless anime illustration evoking %s technology, "
                 .formatted(subject)
                 + "conceptual objects and characters, no text, no letters, no signs";

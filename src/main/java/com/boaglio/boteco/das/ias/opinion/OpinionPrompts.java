@@ -2,6 +2,8 @@ package com.boaglio.boteco.das.ias.opinion;
 
 import com.boaglio.boteco.das.ias.model.News;
 
+import java.util.Objects;
+
 /** Builds the shared prompt sent to each AI reviewer. */
 public final class OpinionPrompts {
 
@@ -23,6 +25,7 @@ public final class OpinionPrompts {
                 Resumo: %s
                 Link: %s
                 """.formatted(
-                news.subject(), news.title(), news.source(), news.summary(), news.url());
+                news.subject().label(), news.title(), news.source(), news.summary(),
+                Objects.requireNonNullElse(news.url(), "(sem link)"));
     }
 }

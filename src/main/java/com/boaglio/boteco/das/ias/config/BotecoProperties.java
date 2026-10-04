@@ -50,6 +50,7 @@ public record BotecoProperties(
                 case SPRING_BOOT -> springBoot;
                 case SPRING_AI -> springAi;
                 case TECHNOLOGY -> technology;
+                case CUSTOM -> null;
             };
             return urls == null ? List.of() : urls;
         }

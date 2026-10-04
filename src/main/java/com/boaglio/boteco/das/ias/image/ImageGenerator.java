@@ -2,6 +2,7 @@ package com.boaglio.boteco.das.ias.image;
 
 import com.boaglio.boteco.das.ias.model.Magazine;
 import com.boaglio.boteco.das.ias.model.News;
+import com.boaglio.boteco.das.ias.model.Subject;
 import com.boaglio.boteco.das.ias.storage.MagazineStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +73,12 @@ public class ImageGenerator {
     }
 
     private static String filenameFor(News news) {
+        // An edition may hold several custom items, so each gets a name derived
+        // from its link/title (stable across runs) instead of just the subject.
+        if (news.subject() == Subject.CUSTOM) {
+            var key = news.url() != null && !news.url().isBlank() ? news.url() : news.title();
+            return "custom-%08x.png".formatted(key.hashCode());
+        }
         return news.subject().name().toLowerCase(Locale.ROOT) + ".png";
     }
 

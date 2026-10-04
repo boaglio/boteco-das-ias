@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Stage 1 of the build process: gather last-week news from the official feeds,
  * pick the best item per {@link Subject}, and assemble a {@link Magazine}.
+ * Items added by hand ({@link Subject#CUSTOM}) are never crawled; they are
+ * carried over from the existing edition, after the gathered ones.
  */
 @Service
 public class NewsGatherer {
@@ -42,13 +45,25 @@ public class NewsGatherer {
      * again, so a retry only fills in the subjects that are still missing.
      */
     public Magazine gather(Magazine existing) {
+        return gather(existing, false);
+    }
+
+    /**
+     * Same as {@link #gather(Magazine)}, but when {@code force} is true every
+     * feed subject is crawled again. Custom items in {@code existing} are kept
+     * either way — they were typed in by hand and can't be re-crawled.
+     */
+    public Magazine gather(Magazine existing, boolean force) {
         var releaseDate = LocalDate.now();
         var selected = new ArrayList<News>();
         // Keys of items already chosen, so no article repeats across subjects
         // (some subjects share a feed, e.g. Spring Boot and Spring AI).
         var alreadyChosen = new HashSet<String>();
-        for (var subject : Subject.values()) {
-            var reused = existingFor(existing, subject);
+        var custom = customItems(existing);
+        // Custom items are claimed first, so a crawled article never repeats one.
+        custom.forEach(news -> alreadyChosen.add(key(news)));
+        for (var subject : Subject.feedSubjects()) {
+            var reused = force ? null : existingFor(existing, subject);
             if (reused != null) {
                 log.info("{}: already gathered \"{}\", skipping", subject, reused.title());
                 selected.add(reused);
@@ -67,6 +82,7 @@ public class NewsGatherer {
                     },
                     () -> log.warn("{}: no news found within the window", subject));
         }
+        selected.addAll(custom);
         var title = properties.title().replace("{date}", releaseDate.toString());
         return new Magazine(title, releaseDate, selected);
     }
@@ -82,8 +98,18 @@ public class NewsGatherer {
                 .orElse(null);
     }
 
+    /** The manually added items of the existing edition, in their original order. */
+    private static List<News> customItems(Magazine existing) {
+        if (existing == null) {
+            return List.of();
+        }
+        return existing.news().stream()
+                .filter(news -> news.subject() == Subject.CUSTOM)
+                .toList();
+    }
+
     /** Dedup key for a news item: its URL when present, otherwise its title. */
-    private static String key(News news) {
+    static String key(News news) {
         return news.url() != null && !news.url().isBlank() ? news.url() : news.title();
     }
 }
