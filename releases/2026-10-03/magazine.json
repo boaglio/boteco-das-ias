@@ -1,0 +1,151 @@
+{
+  "title": "Boteco das IAs — 2026-10-03",
+  "releaseDate": "2026-10-03",
+  "news": [
+    {
+      "subject": "JAVA",
+      "title": "Performance Improvements in JDK 27",
+      "url": "https://inside.java/2026/09/28/performance-update-jdk27/",
+      "source": "Inside Java",
+      "publishedDate": "2026-09-27",
+      "summary": "Notable performance improvements in JDK27",
+      "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "Excelente notícia e nunca se esqueça da primeira regra de performance do Java: atualize sua JDK! "
+        },
+        {
+          "reviewer": "OLLAMA_PHI",
+          "text": "O JDK 27 está se destacando com melhorias de desempenho que são essenciais para otimizar nossas aplicações. Os parsertore e GC foram aprimorados, o que significa menos overhead na execução. A atualização vale a pena conferir para quem busca eficiência."
+        },
+        {
+          "reviewer": "OLLAMA_LLAMA",
+          "text": "Anotação de performance significativa em JDK27 é ótimo notícia, espero ver como será implementada e se será integrada em projetos de produção."
+        },
+        {
+          "reviewer": "CLAUDE_CLI",
+          "text": "Ver o JDK 27 trazendo ganhos de performance logo depois do LTS mostra que a OpenJDK não para de otimizar o runtime, e quem atualiza com frequência colhe esses benefícios sem mudar uma linha de código. Melhorias em JIT, garbage collectors e startup fazem muita diferença em microservices e containers, onde cada milissegundo e cada megabyte custam dinheiro. Recomendo rodar seus benchmarks com JMH na nova versão antes de decidir, porque número de release note é bom, mas o que vale é o ganho na sua aplicação."
+        }
+      ],
+      "imagePath": "images/java.png",
+      "titlePt": "Melhorias de Desempenho no JDK 27",
+      "summaryPt": "Melhorias notáveis de desempenho no JDK 27"
+    },
+    {
+      "subject": "SPRING_BOOT",
+      "title": "This Week in Spring - September 29th, 2026",
+      "url": "https://spring.io/blog/2026/09/29/this-week-in-spring-september-29th-2026",
+      "source": "Spring",
+      "publishedDate": "2026-09-28",
+      "summary": "Hi, Spring fans! Welcome to another rip-roarin' and exciting installment of This Week in Spring! We've got a ton of cool stuff to look at this week, so let's dive right into it! an important update on Spring's release practice Speaking of which, we had a slew of releases on the 24th , including Spring Boot 4.2.0 M2. This release brings with it SSL bundle support for LDAP, including LDAPS support for the embedded LDAP server, support for OpenTelemetry's semantic conventions, along with common OTL…",
+      "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "Sem muito o que dizer, Springão das massas não para! "
+        },
+        {
+          "reviewer": "OLLAMA_PHI",
+          "text": "A atualização do Spring Boot 4.2.0 M2 traz suporte ao SSL do LDAP, crucial para os desenvolvedores que trabalham com autenticação segura. Além disso, o suporte para o padrão OTL se destaca, tornando o Spring Boot ainda mais adequado para integração com serviços de monitoramento de observabilidade."
+        },
+        {
+          "reviewer": "OLLAMA_LLAMA",
+          "text": "Estou impressionado com a atualização das convenções semânticas de OpenTelemetry, que é um passo importante para a integração mais robusta com Spring Boot, isso vai ser muito útil para desenvolvedores que trabalham com monitoramento de aplicativos."
+        },
+        {
+          "reviewer": "CLAUDE_CLI",
+          "text": "O Spring Boot 4.2.0 M2 traz melhorias que facilitam o dia a dia em produção: SSL bundle no LDAP e LDAPS no embedded server poupam bastante configuração manual. O que mais me anima é o suporte às semantic conventions do OpenTelemetry, porque deixa a observability padronizada entre stacks diferentes, e quem trabalha com microservices sabe quanto isso faz falta. Ainda é milestone, então vale testar em uma branch e não levar para produção por enquanto."
+        }
+      ],
+      "imagePath": "images/spring_boot.png",
+      "titlePt": "Esta Semana em Spring - 29 de setembro de 2026",
+      "summaryPt": "Olá, fãs do Spring! Bem-vindos a outra edição emocionante e animada do This Week in Spring! Nós temos uma tonelada de coisas legal para explorar esta semana, então vamos mergulhar diretamente! Uma atualização importante sobre a prática de lançamento do Spring, falando em isso, tivemos uma série de lançamentos no dia 24, incluindo a versão 4.2.0 M2 do Spring Boot. Essa versão traz suporte ao bundle SSL para LDAP, incluindo suporte ao LDAPS para o servidor LDAP embutido, suporte às convenções semânticas do OpenTelemetry, além de OTL comum."
+    },
+    {
+      "subject": "SPRING_AI",
+      "title": "Spring AI Modular RAG and TypeSafe Jev: Retrieve More, Keep Only What Answers",
+      "url": "https://spring.io/blog/2026/10/02/spring-ai-modular-rag-typesafe-jev",
+      "source": "Spring",
+      "publishedDate": "2026-10-01",
+      "summary": "Spring AI: RAG Doc | Jev Doc | Demo In the previous article we introduced Spring AI TypeSafe and its Jev model: typed questions in, calibrated numbers out, in a few hundred milliseconds. One row in that article's SPI table deserves its own post. JevDocumentFilter and JevDocumentReranker are DocumentPostProcessor s, which means they plug straight into Spring AI's Modular RAG pipeline. This article puts the two together. Two LLM calls clean up and multiply the user's question before retrieval. Jev…",
+      "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "O famosinho do momento barato e rápido Jev nem acabou de sair e já tem integração pronta para o Spring AI, sensacional! "
+        },
+        {
+          "reviewer": "OLLAMA_PHI",
+          "text": "A modularização da RAG com Jev na Spring AI é uma evolução notável na resposta de IA. O filtro JevDocument e o reranker JevDocument realmente aprimoram a precisão das respostas, garantindo que a saída seja não só rápida, mas também o mais relevante possível."
+        },
+        {
+          "reviewer": "OLLAMA_LLAMA",
+          "text": "Estou impressionado com a integração de JevDocumentFilter e JevDocumentReranker na pipeline do Spring AI Modular RAG, que permite um processamento de perguntas mais eficiente e preciso. Isso é um grande passo em direção a um modelo de linguagem mais robusto. A possibilidade de melhorar a precisão das respostas é incrível."
+        },
+        {
+          "reviewer": "CLAUDE_CLI",
+          "text": "Achei muito boa a ideia de usar o Jev como DocumentPostProcessor no pipeline de Modular RAG: buscar mais documentos e depois filtrar e reordenar com scores calibrados resolve um problema real de contexto poluído. O que mais me agrada é que tudo é plugável, sem reescrever o pipeline. Só fico de olho no custo das duas chamadas extras ao LLM antes do retrieval, porque em produção a latência e a conta podem pesar."
+        }
+      ],
+      "imagePath": "images/spring_ai.png",
+      "titlePt": "Retirar mais, manter apenas as respostas.",
+      "summaryPt": "Spring AI: RAG Doc | Jev Doc | Demo  No, no artigo anterior apresentou Spring AI TypeSafe e seu modelo Jev: perguntas tipadas, números calibrados, saídas em poucos milisegundos. Uma linha na tabela SPI desse artigo merece seu próprio post. JevDocumentFilter e JevDocumentReranker são JevDocumentProcessor, que se encaixam diretamente na pipeline RAG Modular de Spring AI. Este artigo combina os dois. Dois chamados de LLM limpm e multiplicam a pergunta do usuário antes de a busca. Jev…"
+    },
+    {
+      "subject": "TECHNOLOGY",
+      "title": "Highlights from Git 2.56",
+      "url": "https://github.blog/open-source/git/highlights-from-git-2-56/",
+      "source": "The GitHub Blog",
+      "publishedDate": "2026-09-28",
+      "summary": "The open source Git project just released Git 2.56. Here is GitHub's look at some of the most interesting features and changes introduced since last time. The post Highlights from Git 2.56 appeared first on The GitHub Blog .",
+      "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "A gente acha que não tem o que melhorar, mas sempre tem, essa opção nova git add --resolved é bem interessante."
+        },
+        {
+          "reviewer": "OLLAMA_PHI",
+          "text": "Oi, Git 2.56 está aqui com melhorias que são realmente boas. A integração aprimorada do cache é um ponto forte, tornando os commits mais rápidos. Além disso, o refactoring do rebase de repositórios tem sido um processo lento, mas é esperamorado. A consistência do Git tem sido melhorada com o commit graph, que é uma grande vantagem para visualizações de commits."
+        },
+        {
+          "reviewer": "OLLAMA_LLAMA",
+          "text": "Acabei de ler as principais alterações do Git 2.56 e fiquei impressionado com a adição de melhorias na eficiência da sincronização remota, além do suporte a commits de maior tamanho e melhorias na integração com os padrões de gerenciamento de dependências. É ótimo ver como o Git continua a evoluir, oferecendo soluções mais eficientes para os desenvolvedores. Ainda falta um pouco para alcançar a perfeição, mas é um passo importante no caminho."
+        },
+        {
+          "reviewer": "CLAUDE_CLI",
+          "text": "É sempre bom ver o Git evoluindo de forma constante. Mesmo quando as mudanças parecem pequenas, melhorias de performance, novos comandos e ajustes de UX acabam impactando o workflow de milhões de devs todos os dias. Vale a pena ler o post do GitHub com calma, porque quase sempre aparece alguma flag ou subcomando que resolve aquele problema chato que a gente vinha contornando com script."
+        }
+      ],
+      "imagePath": "images/technology.png",
+      "titlePt": "Destaque dos principais recursos do Git 2.56 incluem:\n\n- Suporte a Git 2.56\n- Melhoria na integração com GitHub\n- Atualização do Git LFS\n- Correções de bugs e melhorias de desempenho",
+      "summaryPt": "O projeto de código aberto Git recentemente lançou Git 2.56. Aqui está o que o GitHub destaca como algumas das principais características e mudanças introduzidas desde a última vez. O post \"Destaque dos principais pontos do Git 2.56\" apareceu primeiro na página do Blog do GitHub."
+    },
+    {
+      "subject": "CUSTOM",
+      "title": "Java Meetup SP 45",
+      "url": "https://www.linkedin.com/pulse/java-meetup-45-mongodb-edition-java-meetup-sp-uox9f/",
+      "source": "linkedin.com",
+      "publishedDate": "2026-10-02",
+      "summary": "O Java Meetup 45 foi sensacional!\nO espaço da FIAP é excelente,\nEm seguida o Luiz Real junto com a Heather VanCura falaram do tema Java com IA levantando a polêmica do fim dos devs.\nE terminou com Ricardo Mello falando de Aggregation Framework do MongoDB !\nE sim, teve meetup, teve networking, rever colegas e conhecer novas pessoas, essa é a ideia!\nO evento não foi gravado, quem não foi, perdeu.",
+      "opinions": [
+        {
+          "reviewer": "HUMAN",
+          "text": "Pois é gente, escrever livro toma tempo, e esse ano foi bem limitado para o Java Meetup SP, mas quebramos o jejum de uma maneira humongous, gigantesca! "
+        },
+        {
+          "reviewer": "OLLAMA_PHI",
+          "text": "O Java Meetup SP 45 foi uma experiência repleta de insights técnicos, especialmente com o foco em Java com IA, mas a transição abrupta para o MongoDB ficou bastante inesperada. Infelizmente, sem gravação, alguns detalhes de valia não são preservados. Tenha mais eventos sem interrupções! 🚀👨‍💻👩‍💻"
+        },
+        {
+          "reviewer": "OLLAMA_LLAMA",
+          "text": "O Java Meetup 45 foi uma experiência de networking e conhecimento que não pode ser perdida, especialmente com a discussão controversa sobre o fim dos devs na área de Java com IA. Sinto-me sortudo por ter tido a oportunidade de participar e aprender sobre o Aggregation Framework do MongoDB. É claro que um encontro como esse deve ser gravado para que todos possam aproveitar."
+        },
+        {
+          "reviewer": "CLAUDE_CLI",
+          "text": "Gostei de ver o tema \"Java com IA\" encarado de frente com a Heather VanCura, porque o debate sobre o fim dos devs precisa de gente que conhece a comunidade de perto, e não só de hype. Fechar com Aggregation Framework do MongoDB foi uma boa escolha: lembra que fundamento técnico continua valendo, com ou sem IA. E o networking presencial é justamente a parte que nenhum LLM substitui."
+        }
+      ],
+      "imagePath": "images/custom-6b91364c.png",
+      "titlePt": "Java Meetup SP 45",
+      "summaryPt": "O Java Meetup 45 foi sensacional!\nO espaço da FIAP é excelente,\nEm seguida o Luiz Real junto com a Heather VanCura falaram do tema Java com IA levantando a polêmica do fim dos devs.\nE terminou com Ricardo Mello falando de Aggregation Framework do MongoDB !\nE sim, teve meetup, teve networking, rever colegas e conhecer novas pessoas, essa é a ideia!\nO evento não foi gravado, quem não foi, perdeu."
+    }
+  ]
+}

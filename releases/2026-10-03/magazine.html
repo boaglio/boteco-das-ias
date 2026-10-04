@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boteco das IAs — 2026-10-03</title>
+<style>:root{--bg:#16151b;--card:#23222b;--card-right:#1f2a39;--ink:#ece7df;--muted:#9a948a;--accent:#e07a5f;--line:#332f3a}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;line-height:1.5}
+.magazine-title{text-align:center;padding:2rem 1rem;border-bottom:3px solid var(--accent)}
+.magazine-title h1{margin:0;font-size:2rem}
+.logo-banner{width:60%;max-width:320px;height:auto;display:block;margin:0 auto 1rem;border-radius:14px}
+main{max-width:880px;margin:0 auto;padding:1rem}
+.news{padding:1.5rem 0;border-bottom:1px solid var(--line)}
+.news-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+.news-cell{flex:1 1 280px}
+.image{width:100%;border-radius:10px;display:block}
+.image.placeholder{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#2a2833;color:var(--muted)}
+.subject{font-size:.75rem;letter-spacing:.1em;color:var(--accent);font-weight:700}
+.news-text h2{margin:.3rem 0}
+.news-text a{color:inherit;text-decoration:none}
+.original-title{margin:.1rem 0 .4rem;font-size:.85rem;font-style:italic;color:var(--muted)}
+.source{font-size:.8rem;color:var(--muted)}
+.opinions{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem}
+.opinion{max-width:75%;padding:.6rem .9rem;border-radius:14px;background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.opinion.left{align-self:flex-start;border-top-left-radius:2px}
+.opinion.right{align-self:flex-end;border-top-right-radius:2px;background:var(--card-right)}
+.opinion .speaker{display:flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;color:var(--muted);margin-bottom:.2rem}
+.opinion .logo{flex:none}
+.opinion .avatar{width:16px;height:16px;border-radius:50%;object-fit:cover}
+.opinion .maker{font-weight:400;color:#7d776e;font-size:.65rem}
+.opinion p{margin:0}
+.magazine-footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+.footer-list{list-style:none;margin:1rem auto 0;padding:0;max-width:300px;display:inline-block;text-align:left}
+.footer-list li{margin:.4rem 0}
+.footer-list a{display:flex;align-items:center;gap:.55rem;color:var(--ink);text-decoration:none}
+.footer-list a:hover{color:var(--accent)}
+.footer-list .flogo{flex:none}
+</style>
+</head>
+<body>
+<header class="magazine-title"><img class="logo-banner" src="logo.png" alt="Boteco das IAs"><h1>Boteco das IAs — 2026-10-03</h1></header>
+<main>
+<article class="news">
+<div class="news-row">
+<div class="news-cell"><img class="image" src="images/java.png" alt="Performance Improvements in JDK 27"></div>
+<div class="news-cell"><div class="news-text">
+<span class="subject">JAVA</span>
+<h2><a href="https://inside.java/2026/09/28/performance-update-jdk27/">Melhorias de Desempenho no JDK 27</a></h2>
+<p class="original-title">Performance Improvements in JDK 27</p><p class="summary">Melhorias notáveis de desempenho no JDK 27</p>
+<p class="source">Fonte: Inside Java</p>
+</div>
+</div>
+</div>
+<div class="opinions">
+<div class="opinion left">
+<span class="speaker"><img class="logo avatar" src="avatar.png" alt="Fernando Boaglio"> Fernando Boaglio </span>
+<p>Excelente notícia e nunca se esqueça da primeira regra de performance do Java: atualize sua JDK! </p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 10 10" width="14" height="14" aria-hidden="true"><rect width="4.4" height="4.4" x="0" y="0" fill="#F25022"/><rect width="4.4" height="4.4" x="5.6" y="0" fill="#7FBA00"/><rect width="4.4" height="4.4" x="0" y="5.6" fill="#00A4EF"/><rect width="4.4" height="4.4" x="5.6" y="5.6" fill="#FFB900"/></svg> phi4-mini <span class="maker">Microsoft</span></span>
+<p>O JDK 27 está se destacando com melhorias de desempenho que são essenciais para otimizar nossas aplicações. Os parsertore e GC foram aprimorados, o que significa menos overhead na execução. A atualização vale a pena conferir para quem busca eficiência.</p>
+</div>
+<div class="opinion left">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#0467DF"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">M</text></svg> llama3.2 <span class="maker">Meta</span></span>
+<p>Anotação de performance significativa em JDK27 é ótimo notícia, espero ver como será implementada e se será integrada em projetos de produção.</p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#D97757"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">A</text></svg> Claude <span class="maker">Anthropic</span></span>
+<p>Ver o JDK 27 trazendo ganhos de performance logo depois do LTS mostra que a OpenJDK não para de otimizar o runtime, e quem atualiza com frequência colhe esses benefícios sem mudar uma linha de código. Melhorias em JIT, garbage collectors e startup fazem muita diferença em microservices e containers, onde cada milissegundo e cada megabyte custam dinheiro. Recomendo rodar seus benchmarks com JMH na nova versão antes de decidir, porque número de release note é bom, mas o que vale é o ganho na sua aplicação.</p>
+</div>
+</div>
+</article>
+<article class="news">
+<div class="news-row">
+<div class="news-cell"><div class="news-text">
+<span class="subject">SPRING BOOT</span>
+<h2><a href="https://spring.io/blog/2026/09/29/this-week-in-spring-september-29th-2026">Esta Semana em Spring - 29 de setembro de 2026</a></h2>
+<p class="original-title">This Week in Spring - September 29th, 2026</p><p class="summary">Olá, fãs do Spring! Bem-vindos a outra edição emocionante e animada do This Week in Spring! Nós temos uma tonelada de coisas legal para explorar esta semana, então vamos mergulhar diretamente! Uma atualização importante sobre a prática de lançamento do Spring, falando em isso, tivemos uma série de lançamentos no dia 24, incluindo a versão 4.2.0 M2 do Spring Boot. Essa versão traz suporte ao bundle SSL para LDAP, incluindo suporte ao LDAPS para o servidor LDAP embutido, suporte às convenções semânticas do OpenTelemetry, além de OTL comum.</p>
+<p class="source">Fonte: Spring</p>
+</div>
+</div>
+<div class="news-cell"><img class="image" src="images/spring_boot.png" alt="This Week in Spring - September 29th, 2026"></div>
+</div>
+<div class="opinions">
+<div class="opinion left">
+<span class="speaker"><img class="logo avatar" src="avatar.png" alt="Fernando Boaglio"> Fernando Boaglio </span>
+<p>Sem muito o que dizer, Springão das massas não para! </p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 10 10" width="14" height="14" aria-hidden="true"><rect width="4.4" height="4.4" x="0" y="0" fill="#F25022"/><rect width="4.4" height="4.4" x="5.6" y="0" fill="#7FBA00"/><rect width="4.4" height="4.4" x="0" y="5.6" fill="#00A4EF"/><rect width="4.4" height="4.4" x="5.6" y="5.6" fill="#FFB900"/></svg> phi4-mini <span class="maker">Microsoft</span></span>
+<p>A atualização do Spring Boot 4.2.0 M2 traz suporte ao SSL do LDAP, crucial para os desenvolvedores que trabalham com autenticação segura. Além disso, o suporte para o padrão OTL se destaca, tornando o Spring Boot ainda mais adequado para integração com serviços de monitoramento de observabilidade.</p>
+</div>
+<div class="opinion left">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#0467DF"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">M</text></svg> llama3.2 <span class="maker">Meta</span></span>
+<p>Estou impressionado com a atualização das convenções semânticas de OpenTelemetry, que é um passo importante para a integração mais robusta com Spring Boot, isso vai ser muito útil para desenvolvedores que trabalham com monitoramento de aplicativos.</p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#D97757"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">A</text></svg> Claude <span class="maker">Anthropic</span></span>
+<p>O Spring Boot 4.2.0 M2 traz melhorias que facilitam o dia a dia em produção: SSL bundle no LDAP e LDAPS no embedded server poupam bastante configuração manual. O que mais me anima é o suporte às semantic conventions do OpenTelemetry, porque deixa a observability padronizada entre stacks diferentes, e quem trabalha com microservices sabe quanto isso faz falta. Ainda é milestone, então vale testar em uma branch e não levar para produção por enquanto.</p>
+</div>
+</div>
+</article>
+<article class="news">
+<div class="news-row">
+<div class="news-cell"><img class="image" src="images/spring_ai.png" alt="Spring AI Modular RAG and TypeSafe Jev: Retrieve More, Keep Only What Answers"></div>
+<div class="news-cell"><div class="news-text">
+<span class="subject">SPRING AI</span>
+<h2><a href="https://spring.io/blog/2026/10/02/spring-ai-modular-rag-typesafe-jev">Retirar mais, manter apenas as respostas.</a></h2>
+<p class="original-title">Spring AI Modular RAG and TypeSafe Jev: Retrieve More, Keep Only What Answers</p><p class="summary">Spring AI: RAG Doc | Jev Doc | Demo  No, no artigo anterior apresentou Spring AI TypeSafe e seu modelo Jev: perguntas tipadas, números calibrados, saídas em poucos milisegundos. Uma linha na tabela SPI desse artigo merece seu próprio post. JevDocumentFilter e JevDocumentReranker são JevDocumentProcessor, que se encaixam diretamente na pipeline RAG Modular de Spring AI. Este artigo combina os dois. Dois chamados de LLM limpm e multiplicam a pergunta do usuário antes de a busca. Jev…</p>
+<p class="source">Fonte: Spring</p>
+</div>
+</div>
+</div>
+<div class="opinions">
+<div class="opinion left">
+<span class="speaker"><img class="logo avatar" src="avatar.png" alt="Fernando Boaglio"> Fernando Boaglio </span>
+<p>O famosinho do momento barato e rápido Jev nem acabou de sair e já tem integração pronta para o Spring AI, sensacional! </p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 10 10" width="14" height="14" aria-hidden="true"><rect width="4.4" height="4.4" x="0" y="0" fill="#F25022"/><rect width="4.4" height="4.4" x="5.6" y="0" fill="#7FBA00"/><rect width="4.4" height="4.4" x="0" y="5.6" fill="#00A4EF"/><rect width="4.4" height="4.4" x="5.6" y="5.6" fill="#FFB900"/></svg> phi4-mini <span class="maker">Microsoft</span></span>
+<p>A modularização da RAG com Jev na Spring AI é uma evolução notável na resposta de IA. O filtro JevDocument e o reranker JevDocument realmente aprimoram a precisão das respostas, garantindo que a saída seja não só rápida, mas também o mais relevante possível.</p>
+</div>
+<div class="opinion left">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#0467DF"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">M</text></svg> llama3.2 <span class="maker">Meta</span></span>
+<p>Estou impressionado com a integração de JevDocumentFilter e JevDocumentReranker na pipeline do Spring AI Modular RAG, que permite um processamento de perguntas mais eficiente e preciso. Isso é um grande passo em direção a um modelo de linguagem mais robusto. A possibilidade de melhorar a precisão das respostas é incrível.</p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#D97757"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">A</text></svg> Claude <span class="maker">Anthropic</span></span>
+<p>Achei muito boa a ideia de usar o Jev como DocumentPostProcessor no pipeline de Modular RAG: buscar mais documentos e depois filtrar e reordenar com scores calibrados resolve um problema real de contexto poluído. O que mais me agrada é que tudo é plugável, sem reescrever o pipeline. Só fico de olho no custo das duas chamadas extras ao LLM antes do retrieval, porque em produção a latência e a conta podem pesar.</p>
+</div>
+</div>
+</article>
+<article class="news">
+<div class="news-row">
+<div class="news-cell"><div class="news-text">
+<span class="subject">TECHNOLOGY</span>
+<h2><a href="https://github.blog/open-source/git/highlights-from-git-2-56/">Destaque dos principais recursos do Git 2.56 incluem:
+
+- Suporte a Git 2.56
+- Melhoria na integração com GitHub
+- Atualização do Git LFS
+- Correções de bugs e melhorias de desempenho</a></h2>
+<p class="original-title">Highlights from Git 2.56</p><p class="summary">O projeto de código aberto Git recentemente lançou Git 2.56. Aqui está o que o GitHub destaca como algumas das principais características e mudanças introduzidas desde a última vez. O post &quot;Destaque dos principais pontos do Git 2.56&quot; apareceu primeiro na página do Blog do GitHub.</p>
+<p class="source">Fonte: The GitHub Blog</p>
+</div>
+</div>
+<div class="news-cell"><img class="image" src="images/technology.png" alt="Highlights from Git 2.56"></div>
+</div>
+<div class="opinions">
+<div class="opinion left">
+<span class="speaker"><img class="logo avatar" src="avatar.png" alt="Fernando Boaglio"> Fernando Boaglio </span>
+<p>A gente acha que não tem o que melhorar, mas sempre tem, essa opção nova git add --resolved é bem interessante.</p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 10 10" width="14" height="14" aria-hidden="true"><rect width="4.4" height="4.4" x="0" y="0" fill="#F25022"/><rect width="4.4" height="4.4" x="5.6" y="0" fill="#7FBA00"/><rect width="4.4" height="4.4" x="0" y="5.6" fill="#00A4EF"/><rect width="4.4" height="4.4" x="5.6" y="5.6" fill="#FFB900"/></svg> phi4-mini <span class="maker">Microsoft</span></span>
+<p>Oi, Git 2.56 está aqui com melhorias que são realmente boas. A integração aprimorada do cache é um ponto forte, tornando os commits mais rápidos. Além disso, o refactoring do rebase de repositórios tem sido um processo lento, mas é esperamorado. A consistência do Git tem sido melhorada com o commit graph, que é uma grande vantagem para visualizações de commits.</p>
+</div>
+<div class="opinion left">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#0467DF"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">M</text></svg> llama3.2 <span class="maker">Meta</span></span>
+<p>Acabei de ler as principais alterações do Git 2.56 e fiquei impressionado com a adição de melhorias na eficiência da sincronização remota, além do suporte a commits de maior tamanho e melhorias na integração com os padrões de gerenciamento de dependências. É ótimo ver como o Git continua a evoluir, oferecendo soluções mais eficientes para os desenvolvedores. Ainda falta um pouco para alcançar a perfeição, mas é um passo importante no caminho.</p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#D97757"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">A</text></svg> Claude <span class="maker">Anthropic</span></span>
+<p>É sempre bom ver o Git evoluindo de forma constante. Mesmo quando as mudanças parecem pequenas, melhorias de performance, novos comandos e ajustes de UX acabam impactando o workflow de milhões de devs todos os dias. Vale a pena ler o post do GitHub com calma, porque quase sempre aparece alguma flag ou subcomando que resolve aquele problema chato que a gente vinha contornando com script.</p>
+</div>
+</div>
+</article>
+<article class="news">
+<div class="news-row">
+<div class="news-cell"><img class="image" src="images/custom-6b91364c.png" alt="Java Meetup SP 45"></div>
+<div class="news-cell"><div class="news-text">
+<span class="subject">EXTRA</span>
+<h2><a href="https://www.linkedin.com/pulse/java-meetup-45-mongodb-edition-java-meetup-sp-uox9f/">Java Meetup SP 45</a></h2>
+<p class="summary">O Java Meetup 45 foi sensacional!<br>O espaço da FIAP é excelente,<br>Em seguida o Luiz Real junto com a Heather VanCura falaram do tema Java com IA levantando a polêmica do fim dos devs.<br>E terminou com Ricardo Mello falando de Aggregation Framework do MongoDB !<br>E sim, teve meetup, teve networking, rever colegas e conhecer novas pessoas, essa é a ideia!<br>O evento não foi gravado, quem não foi, perdeu.</p>
+<p class="source">Fonte: linkedin.com</p>
+</div>
+</div>
+</div>
+<div class="opinions">
+<div class="opinion left">
+<span class="speaker"><img class="logo avatar" src="avatar.png" alt="Fernando Boaglio"> Fernando Boaglio </span>
+<p>Pois é gente, escrever livro toma tempo, e esse ano foi bem limitado para o Java Meetup SP, mas quebramos o jejum de uma maneira humongous, gigantesca! </p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 10 10" width="14" height="14" aria-hidden="true"><rect width="4.4" height="4.4" x="0" y="0" fill="#F25022"/><rect width="4.4" height="4.4" x="5.6" y="0" fill="#7FBA00"/><rect width="4.4" height="4.4" x="0" y="5.6" fill="#00A4EF"/><rect width="4.4" height="4.4" x="5.6" y="5.6" fill="#FFB900"/></svg> phi4-mini <span class="maker">Microsoft</span></span>
+<p>O Java Meetup SP 45 foi uma experiência repleta de insights técnicos, especialmente com o foco em Java com IA, mas a transição abrupta para o MongoDB ficou bastante inesperada. Infelizmente, sem gravação, alguns detalhes de valia não são preservados. Tenha mais eventos sem interrupções! 🚀👨‍💻👩‍💻</p>
+</div>
+<div class="opinion left">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#0467DF"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">M</text></svg> llama3.2 <span class="maker">Meta</span></span>
+<p>O Java Meetup 45 foi uma experiência de networking e conhecimento que não pode ser perdida, especialmente com a discussão controversa sobre o fim dos devs na área de Java com IA. Sinto-me sortudo por ter tido a oportunidade de participar e aprender sobre o Aggregation Framework do MongoDB. É claro que um encontro como esse deve ser gravado para que todos possam aproveitar.</p>
+</div>
+<div class="opinion right">
+<span class="speaker"><svg class="logo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#D97757"/><text x="8" y="11.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">A</text></svg> Claude <span class="maker">Anthropic</span></span>
+<p>Gostei de ver o tema &quot;Java com IA&quot; encarado de frente com a Heather VanCura, porque o debate sobre o fim dos devs precisa de gente que conhece a comunidade de perto, e não só de hype. Fechar com Aggregation Framework do MongoDB foi uma boa escolha: lembra que fundamento técnico continua valendo, com ou sem IA. E o networking presencial é justamente a parte que nenhum LLM substitui.</p>
+</div>
+</div>
+</article>
+</main>
+<footer class="magazine-footer">
+<p>Boteco das IAs — seu boteco semanal de notícias com IA.</p>
+<nav class="footer-links"><ul class="footer-list"><li><a href="https://boaglio.com"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#C0392B"/><circle cx="5" cy="11" r="1.2" fill="#fff"/><path d="M4.6 7.2a4.2 4.2 0 0 1 4.2 4.2M4.6 4.7a6.7 6.7 0 0 1 6.7 6.7" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg><span>TechBlog</span></a></li><li><a href="https://github.com/boaglio"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#181717"/><path d="M6.2 5.4 3.6 8l2.6 2.6M9.8 5.4 12.4 8l-2.6 2.6" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>GitHub</span></a></li><li><a href="https://www.linkedin.com/in/boaglio/"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#0A66C2"/><text x="8" y="11.6" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#fff">in</text></svg><span>LinkedIn</span></a></li><li><a href="http://youtube.com/DevMultitask"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#FF0000"/><path d="M6 4.6l5 3.4-5 3.4z" fill="#fff"/></svg><span>YouTube — DevMultitask</span></a></li><li><a href="https://twitter.com/boaglio"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#000000"/><text x="8" y="11.6" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">X</text></svg><span>Twitter</span></a></li><li><a href="https://www.casadocodigo.com.br/search?type=product&amp;q=boaglio"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#6B4F2A"/><path d="M5 4h5a1 1 0 0 1 1 1v7l-3.5-1.5L5 12z" fill="#fff"/></svg><span>Casa do Código — Meus Livros</span></a></li><li><a href="https://www.amazon.com.br/s?i=stripbooks&amp;rh=p_27%3AFernando+Boaglio"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#FF9900"/><text x="8" y="11.6" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">a</text></svg><span>Amazon — Meus Livros</span></a></li><li><a href="https://linktr.ee/boaglio"><svg class="flogo" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="4" fill="#3AA856"/><path d="M7 9l2-2M6.6 10.4a2 2 0 0 1 0-2.8l1-1a2 2 0 0 1 2.8 0M9.4 5.6a2 2 0 0 1 2.8 0 2 2 0 0 1 0 2.8l-1 1" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg><span>Todos os links</span></a></li></ul></nav>
+</footer>
+</body>
+</html>
