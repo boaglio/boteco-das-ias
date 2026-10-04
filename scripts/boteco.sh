@@ -361,6 +361,7 @@ ul{list-style:none;margin:0;padding:0}
 li{padding:.9rem 1rem;border:1px solid #e2dccf;border-radius:12px;background:#fff;margin-bottom:.7rem}
 li a.edition{font-weight:700;color:var(--ink);text-decoration:none;font-size:1.1rem}
 li a.edition:hover{color:var(--accent)}
+li .num{color:var(--accent);font-weight:700;margin-right:.5rem}
 .links{margin-top:.3rem;font-size:.85rem}
 .links a{color:var(--accent);text-decoration:none;margin-right:.8rem}
 footer{text-align:center;color:#999;font-size:.8rem;padding:2rem 1rem}
@@ -379,13 +380,15 @@ HTML
     if [ ${#editions[@]} -eq 0 ]; then
         echo '<li>Nenhuma edição ainda.</li>'
     else
-        local title pdf li
+        local title pdf li n=${#editions[@]}
         for d in "${editions[@]}"; do
             title=$(edition_title "$d")
             pdf=""; [ -f "releases/$d/magazine.pdf" ] && pdf="<a href=\"releases/$d/magazine.pdf\">PDF</a>"
             li=""; [ -d "releases/$d/linkedin" ] && li="<a href=\"releases/$d/linkedin/\">LinkedIn</a>"
-            printf '<li><a class="edition" href="releases/%s/magazine.html">%s</a><div class="links">%s %s</div></li>\n' \
-                "$d" "$title" "$pdf" "$li"
+            # Editions are newest first, so the first one gets the highest number.
+            printf '<li><span class="num">#%s</span><a class="edition" href="releases/%s/magazine.html">%s</a><div class="links">%s %s</div></li>\n' \
+                "$n" "$d" "$title" "$pdf" "$li"
+            n=$((n - 1))
         done
     fi
 

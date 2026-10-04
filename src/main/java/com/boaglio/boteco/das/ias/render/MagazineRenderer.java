@@ -34,6 +34,7 @@ public class MagazineRenderer {
     private static final String HTML_FILE = "magazine.html";
     private static final String LOGO_FILE = "logo.png";
     private static final String AVATAR_FILE = "avatar.png";
+    private static final String BRAND = "Boteco das IAs";
 
     private final MagazineStore store;
     private final BotecoProperties properties;
@@ -85,7 +86,7 @@ public class MagazineRenderer {
 
     /** A standalone, portrait-friendly card: one news item and its conversation. */
     private String renderCard(Magazine magazine, News news) {
-        var brand = logoSource() == null ? ""
+        var logo = logoSource() == null ? ""
                 : "<img src=\"%s\" alt=\"\">".formatted(LOGO_FILE);
         return """
                 <!DOCTYPE html>
@@ -95,11 +96,11 @@ public class MagazineRenderer {
                 %s
                 %s
                 <div class="opinions">%s</div>
-                <div class="card-brand">%s<span>Boteco das IAs · %s</span></div>
+                <div class="card-brand">%s<span>%s</span><span class="edition">%s</span></div>
                 </body>
                 </html>
                 """.formatted(css() + cardCss(), renderImage(news), renderText(news),
-                renderOpinions(news), brand, magazine.releaseDate());
+                renderOpinions(news), logo, BRAND, editionLine(magazine));
     }
 
     /** Copies the brand logo and author avatar into the release dir, if present. */
@@ -148,7 +149,7 @@ public class MagazineRenderer {
                 <style>%s</style>
                 </head>
                 <body>
-                <header class="magazine-title">%s<h1>%s</h1></header>
+                <header class="magazine-title">%s</header>
                 <main>
                 %s</main>
                 <footer class="magazine-footer">
@@ -157,14 +158,29 @@ public class MagazineRenderer {
                 </footer>
                 </body>
                 </html>
-                """.formatted(escape(magazine.title()), css(), logoBanner(),
-                escape(magazine.title()), body, renderFooterLinks());
+                """.formatted(escape(magazine.title()), css(), masthead(magazine),
+                body, renderFooterLinks());
     }
 
-    /** The header logo image tag, or empty when no logo is configured/present. */
-    private String logoBanner() {
-        return logoSource() == null ? ""
-                : "<img class=\"logo-banner\" src=\"%s\" alt=\"Boteco das IAs\">".formatted(LOGO_FILE);
+    /**
+     * The header: the brand name, release date and edition number laid over the
+     * bottom of the logo (as HTML text, so the logo image itself stays text-free),
+     * or the text alone when no logo is configured/present.
+     */
+    private String masthead(Magazine magazine) {
+        var text = """
+                <div class="masthead-text"><h1>%s</h1><p>%s</p></div>""".formatted(BRAND, editionLine(magazine));
+        if (logoSource() == null) {
+            return text;
+        }
+        return """
+                <div class="masthead"><img class="logo-banner" src="%s" alt="%s">%s</div>""".formatted(
+                LOGO_FILE, BRAND, text);
+    }
+
+    /** Release date (YYYY-MM-DD) and edition number, e.g. "2026-10-03 · #4". */
+    private String editionLine(Magazine magazine) {
+        return "%s · #%d".formatted(magazine.releaseDate(), store.editionNumber(magazine.releaseDate()));
     }
 
     private String renderNews(News news, boolean imageLeft) {
@@ -300,7 +316,12 @@ public class MagazineRenderer {
                 body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;line-height:1.5}
                 .magazine-title{text-align:center;padding:2rem 1rem;border-bottom:3px solid var(--accent)}
                 .magazine-title h1{margin:0;font-size:2rem}
-                .logo-banner{width:60%;max-width:320px;height:auto;display:block;margin:0 auto 1rem;border-radius:14px}
+                .masthead-text p{margin:.2rem 0 0;font-weight:700;letter-spacing:.06em;color:var(--accent)}
+                .masthead{position:relative;width:60%;max-width:320px;margin:0 auto}
+                .logo-banner{width:100%;height:auto;display:block;border-radius:14px}
+                .masthead .masthead-text{position:absolute;left:0;right:0;bottom:0;padding:2.5rem .8rem .8rem;border-radius:0 0 14px 14px;background:linear-gradient(transparent,rgba(10,9,14,.88));text-shadow:0 1px 3px #000}
+                .masthead h1{font-size:1.7rem;line-height:1.1;color:#fff}
+                .masthead .masthead-text p{color:#ffd2c4}
                 main{max-width:880px;margin:0 auto;padding:1rem}
                 .news{padding:1.5rem 0;border-bottom:1px solid var(--line)}
                 .news-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
@@ -343,6 +364,7 @@ public class MagazineRenderer {
                 .card .opinion{max-width:88%;font-size:1.02rem}
                 .card-brand{display:flex;align-items:center;gap:.6rem;margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-weight:700}
                 .card-brand img{width:36px;height:36px;border-radius:9px}
+                .card-brand .edition{margin-left:auto;color:var(--accent);letter-spacing:.06em}
                 """;
     }
 

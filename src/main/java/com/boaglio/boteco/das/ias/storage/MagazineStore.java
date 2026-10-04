@@ -59,6 +59,29 @@ public class MagazineStore {
         return Files.exists(releaseDir(releaseDate).resolve(JSON_FILE));
     }
 
+    /**
+     * The edition's sequence number (#1 for the oldest): one more than the
+     * number of editions saved before {@code releaseDate}, so it's right
+     * whether or not this edition is already on disk, and follows a re-dated one.
+     */
+    public int editionNumber(LocalDate releaseDate) {
+        var releasesDir = Path.of(properties.releasesDir());
+        if (!Files.isDirectory(releasesDir)) {
+            return 1;
+        }
+        try (var dirs = Files.list(releasesDir)) {
+            var earlier = dirs
+                    .filter(dir -> Files.exists(dir.resolve(JSON_FILE)))
+                    .map(dir -> dir.getFileName().toString())
+                    .filter(name -> name.matches("\\d{4}-\\d{2}-\\d{2}"))
+                    .filter(name -> name.compareTo(releaseDate.toString()) < 0)
+                    .count();
+            return (int) earlier + 1;
+        } catch (IOException e) {
+            throw new UncheckedIOException("Failed to list editions in " + releasesDir, e);
+        }
+    }
+
     /** Loads the working magazine for the given release date. */
     public Magazine load(LocalDate releaseDate) {
         Path jsonPath = releaseDir(releaseDate).resolve(JSON_FILE);

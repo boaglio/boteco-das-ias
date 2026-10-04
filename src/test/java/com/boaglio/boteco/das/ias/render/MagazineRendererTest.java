@@ -75,6 +75,23 @@ class MagazineRendererTest {
     }
 
     @Test
+    void showsBrandDateAndEditionNumberInTheHeaderAndCards(@TempDir Path releasesDir) throws Exception {
+        // Two earlier editions and one later one already exist: this is edition #3.
+        for (var date : List.of("2026-05-01", "2026-06-01", "2026-07-01")) {
+            Files.createDirectories(releasesDir.resolve(date));
+            Files.writeString(releasesDir.resolve(date).resolve("magazine.json"), "{}");
+        }
+        var renderer = rendererIn(releasesDir);
+
+        var html = renderer.render(sampleMagazine());
+        renderer.renderToFile(sampleMagazine());
+        var card = Files.readString(releasesDir.resolve("2026-06-20").resolve("card-1-java.html"));
+
+        assertThat(html).contains("<h1>Boteco das IAs</h1><p>2026-06-20 · #3</p>");
+        assertThat(card).contains("<span>Boteco das IAs</span><span class=\"edition\">2026-06-20 · #3</span>");
+    }
+
+    @Test
     void writesMagazineHtmlIntoReleaseDir(@TempDir Path releasesDir) {
         var renderer = rendererIn(releasesDir);
 

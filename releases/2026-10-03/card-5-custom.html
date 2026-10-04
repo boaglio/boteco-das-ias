@@ -4,7 +4,12 @@
 body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;line-height:1.5}
 .magazine-title{text-align:center;padding:2rem 1rem;border-bottom:3px solid var(--accent)}
 .magazine-title h1{margin:0;font-size:2rem}
-.logo-banner{width:60%;max-width:320px;height:auto;display:block;margin:0 auto 1rem;border-radius:14px}
+.masthead-text p{margin:.2rem 0 0;font-weight:700;letter-spacing:.06em;color:var(--accent)}
+.masthead{position:relative;width:60%;max-width:320px;margin:0 auto}
+.logo-banner{width:100%;height:auto;display:block;border-radius:14px}
+.masthead .masthead-text{position:absolute;left:0;right:0;bottom:0;padding:2.5rem .8rem .8rem;border-radius:0 0 14px 14px;background:linear-gradient(transparent,rgba(10,9,14,.88));text-shadow:0 1px 3px #000}
+.masthead h1{font-size:1.7rem;line-height:1.1;color:#fff}
+.masthead .masthead-text p{color:#ffd2c4}
 main{max-width:880px;margin:0 auto;padding:1rem}
 .news{padding:1.5rem 0;border-bottom:1px solid var(--line)}
 .news-row{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
@@ -41,6 +46,7 @@ body.card{width:1080px;box-sizing:border-box;padding:40px 44px}
 .card .opinion{max-width:88%;font-size:1.02rem}
 .card-brand{display:flex;align-items:center;gap:.6rem;margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-weight:700}
 .card-brand img{width:36px;height:36px;border-radius:9px}
+.card-brand .edition{margin-left:auto;color:var(--accent);letter-spacing:.06em}
 </style></head>
 <body class="card">
 <img class="image" src="images/custom-6b91364c.png" alt="Java Meetup SP 45">
@@ -68,6 +74,6 @@ body.card{width:1080px;box-sizing:border-box;padding:40px 44px}
 <p>Gostei de ver o tema &quot;Java com IA&quot; encarado de frente com a Heather VanCura, porque o debate sobre o fim dos devs precisa de gente que conhece a comunidade de perto, e não só de hype. Fechar com Aggregation Framework do MongoDB foi uma boa escolha: lembra que fundamento técnico continua valendo, com ou sem IA. E o networking presencial é justamente a parte que nenhum LLM substitui.</p>
 </div>
 </div>
-<div class="card-brand"><img src="logo.png" alt=""><span>Boteco das IAs · 2026-10-03</span></div>
+<div class="card-brand"><img src="logo.png" alt=""><span>Boteco das IAs</span><span class="edition">2026-10-03 · #4</span></div>
 </body>
 </html>
